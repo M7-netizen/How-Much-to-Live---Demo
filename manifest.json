@@ -1,21 +1,21 @@
 {
-  "name": "活着要多少钱",
-  "short_name": "活着",
-  "description": "活着要多少钱",
-  "start_url": "/How-Much-to-Live/",
+  "name": "活着要多少钱 · 演示版",
+  "short_name": "活着(演示)",
+  "description": "月帐记账 App 演示版本，数据仅存于本次浏览",
+  "start_url": "/How-Much-to-Live/demo/",
   "display": "standalone",
   "background_color": "#0f0f0b",
   "theme_color": "#0f0f0b",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "../icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "../icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
