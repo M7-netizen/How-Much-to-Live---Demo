@@ -866,8 +866,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const DEMO_MODE = true;
-// In demo mode every Firestore call becomes an inert no-op.
-// Guarantees zero network calls and zero possibility of touching real data.
 function doc(...a){ return DEMO_MODE ? {__demo:true} : _doc(...a); }
 function collection(...a){ return DEMO_MODE ? {__demo:true} : _collection(...a); }
 function query(...a){ return DEMO_MODE ? {__demo:true} : _query(...a); }
@@ -875,7 +873,7 @@ function orderBy(...a){ return DEMO_MODE ? {__demo:true} : _orderBy(...a); }
 function setDoc(...a){ return DEMO_MODE ? Promise.resolve() : _setDoc(...a); }
 function deleteDoc(...a){ return DEMO_MODE ? Promise.resolve() : _deleteDoc(...a); }
 function getDoc(...a){ return DEMO_MODE ? Promise.resolve({exists:()=>false, data:()=>undefined}) : _getDoc(...a); }
-function onSnapshot(...a){ if(DEMO_MODE) return function unsubscribe(){}; return _onSnapshot(...a); }
+function onSnapshot(...a){ if(DEMO_MODE) return function(){}; return _onSnapshot(...a); }
 function writeBatch(...a){
   if(DEMO_MODE) return { set(){}, delete(){}, commit(){ return Promise.resolve(); } };
   return _writeBatch(...a);
@@ -884,9 +882,7 @@ function writeBatch(...a){
 // ── CONFIG ──
 // ── DEMO SAFETY SHIM ──
 // Same-origin localStorage is shared with the REAL app at the site root.
-// To guarantee zero risk of contaminating real user data, every localStorage
-// call anywhere in this file is transparently redirected to a prefixed,
-// per-tab sessionStorage store instead. Closing the tab wipes it completely.
+// Every localStorage call is redirected to prefixed per-tab sessionStorage.
 const localStorage = (function(){
   const PREFIX = '__demo__';
   return {
@@ -906,7 +902,6 @@ const firebaseConfig = {
   appId: "1:8982764579:web:0d3283ec30370f45c32596"
 };
 
-// Demo mode: Firebase app object kept for shape-compatibility, never actually used for I/O
 const app = { name:'demo' };
 const db = { __demo:true };
 
@@ -969,7 +964,7 @@ function saveCards(){
 function setCurOwner(o){ curOwner=o; localStorage.setItem('mz_curOwner',o); updateOwnerUI(); }
 function setDashOwner(o){ dashOwner=o; localStorage.setItem('mz_dashOwner',o); renderDash(); }
 let modalMode='add', modalEditId=null, modalColor=PALETTE[0], modalTarget='expense';
-let isOnline = false; // demo: never connects to real backend
+let isOnline = false; // demo mode
 let unsubTxns = null;
 
 // ── OFFLINE QUEUE ──
@@ -1023,7 +1018,6 @@ function hideSyncBar(){
 }
 
 // ── ONLINE/OFFLINE ──
-// Demo mode: online/offline listeners disabled — never touches real backend
 window.addEventListener('online', () => {});
 window.addEventListener('offline', () => {});
 
@@ -1165,7 +1159,7 @@ async function init(){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 
-  // ── DEMO MODE: seed realistic sample data, never touch localStorage of a real user ──
+  // ── DEMO MODE: seed realistic sample data ──
   const seeded = localStorage.getItem('mz_demo_seeded');
   if(!seeded){ seedDemoData(); localStorage.setItem('mz_demo_seeded','1'); }
   else { loadDemoDataFromSession(); }
@@ -1173,10 +1167,11 @@ async function init(){
   showSyncBar('offline','演示模式 · 数据仅存于本次浏览');
   setTimeout(hideSyncBar, 3000);
   hideLoading();
+  updateOwnerUI();
   renderDash(); buildEntry(); buildIncomeEntry(); renderSettings();
 }
 
-function todayISO(daysAgo, hour){
+function demoISO(daysAgo, hour){
   const d = new Date();
   d.setDate(d.getDate()-daysAgo);
   d.setHours(hour||12, Math.floor(Math.random()*59), 0, 0);
@@ -1190,38 +1185,36 @@ function seedDemoData(){
   cards = ['演示卡'];
   const mo = smk();
   txns = [
-    {id:gid(),month:mo,catId:'food',sub:'外食',amount:18.5, note:'牛肉面',date:todayISO(0,12),owner:'我',pay:'cash'},
-    {id:gid(),month:mo,catId:'food',sub:'超市',amount:64.2, note:'NTUC 采购',date:todayISO(1,19),owner:'小伙伴',pay:'cash'},
-    {id:gid(),month:mo,catId:'cat2',sub:'猫干粮',amount:42.0, note:'',date:todayISO(2,10),owner:'我',pay:'credit',card:'演示卡'},
-    {id:gid(),month:mo,catId:'shop',sub:'',amount:129.9, note:'冬季外套',date:todayISO(3,15),owner:'我',pay:'credit',card:'演示卡'},
-    {id:gid(),month:mo,catId:'ent',sub:'电影',amount:32.0, note:'周末场',date:todayISO(4,20),owner:'小伙伴',pay:'cash'},
-    {id:gid(),month:mo,catId:'moto',sub:'油费',amount:25.0, note:'',date:todayISO(5,9),owner:'我',pay:'cash'},
-    {id:gid(),month:mo,catId:'travel',sub:'新山',amount:210.0, note:'周末小旅行',date:todayISO(6,14),owner:'我',pay:'credit',card:'演示卡'},
-    {id:gid(),month:mo,catId:'soc',sub:'',amount:88.0, note:'朋友聚餐',date:todayISO(7,20),owner:'小伙伴',pay:'cash'},
-    {id:gid(),month:mo,catId:'food',sub:'外食',amount:15.8, note:'',date:todayISO(8,13),owner:'我',pay:'cash'},
-    {id:gid(),month:mo,catId:'fam',sub:'',amount:150.0, note:'水电网费',date:todayISO(9,11),owner:'我',pay:'cash'},
+    {id:gid(),month:mo,catId:'food',sub:'外食',amount:18.5, note:'牛肉面',date:demoISO(0,12),owner:'我',pay:'cash'},
+    {id:gid(),month:mo,catId:'food',sub:'超市',amount:64.2, note:'NTUC 采购',date:demoISO(1,19),owner:'小伙伴',pay:'cash'},
+    {id:gid(),month:mo,catId:'cat2',sub:'猫干粮',amount:42.0, note:'',date:demoISO(2,10),owner:'我',pay:'credit',card:'演示卡'},
+    {id:gid(),month:mo,catId:'shop',sub:'',amount:129.9, note:'冬季外套',date:demoISO(3,15),owner:'我',pay:'credit',card:'演示卡'},
+    {id:gid(),month:mo,catId:'ent',sub:'电影',amount:32.0, note:'周末场',date:demoISO(4,20),owner:'小伙伴',pay:'cash'},
+    {id:gid(),month:mo,catId:'moto',sub:'油费',amount:25.0, note:'',date:demoISO(5,9),owner:'我',pay:'cash'},
+    {id:gid(),month:mo,catId:'travel',sub:'新山',amount:210.0, note:'周末小旅行',date:demoISO(6,14),owner:'我',pay:'credit',card:'演示卡'},
+    {id:gid(),month:mo,catId:'soc',sub:'',amount:88.0, note:'朋友聚餐',date:demoISO(7,20),owner:'小伙伴',pay:'cash'},
+    {id:gid(),month:mo,catId:'food',sub:'外食',amount:15.8, note:'',date:demoISO(8,13),owner:'我',pay:'cash'},
+    {id:gid(),month:mo,catId:'fam',sub:'',amount:150.0, note:'水电网费',date:demoISO(9,11),owner:'我',pay:'cash'},
   ];
   incomeTxns = [
-    {id:gid(),month:mo,catId:'salary',amount:3800, note:'月薪',date:todayISO(9,9),owner:'我'},
-    {id:gid(),month:mo,catId:'salary',amount:3200, note:'月薪',date:todayISO(9,9),owner:'小伙伴'},
-    {id:gid(),month:mo,catId:'parttime',amount:220, note:'兼职收入',date:todayISO(4,18),owner:'我'},
+    {id:gid(),month:mo,catId:'salary',amount:3800, note:'月薪',date:demoISO(9,9),owner:'我',type:'income'},
+    {id:gid(),month:mo,catId:'salary',amount:3200, note:'月薪',date:demoISO(9,9),owner:'小伙伴',type:'income'},
+    {id:gid(),month:mo,catId:'parttime',amount:220, note:'兼职收入',date:demoISO(4,18),owner:'我',type:'income'},
   ];
   repayTxns = [
-    {id:gid(),month:mo,amount:180.5,note:'',card:'演示卡',date:todayISO(2,10),owner:'我',type:'repay'},
+    {id:gid(),month:mo,amount:180.5,note:'',card:'演示卡',date:demoISO(2,10),owner:'我',type:'repay'},
   ];
   saveDemoDataToSession();
 }
 
 function saveDemoDataToSession(){
-  // Reuses the app's normal cache keys — safe because localStorage itself
-  // is already shimmed to per-tab sessionStorage in demo mode (see shim above).
   localStorage.setItem('mz_cats_cache', JSON.stringify(cats));
   localStorage.setItem('mz_icats_cache', JSON.stringify(incomeCats));
   localStorage.setItem('mz_txns_cache', JSON.stringify(txns));
   localStorage.setItem('mz_itxns_cache', JSON.stringify(incomeTxns));
   localStorage.setItem('mz_repay_cache', JSON.stringify(repayTxns));
-  saveOwners();
-  saveCards();
+  localStorage.setItem('mz_owners', JSON.stringify(owners));
+  localStorage.setItem('mz_cards', JSON.stringify(cards));
 }
 
 function loadDemoDataFromSession(){
@@ -2891,7 +2884,7 @@ function renderIncomePage(){
       <div class="txn-info">
         <div class="txn-cat">${cat?.emoji||''} ${cat?.label||t.catId}</div>
         ${t.note?`<div class="txn-note">${t.note}</div>`:''}
-        <div class="txn-date">${ds}${t.owner && owners.length>1 ? " · "+t.owner : ""}${!isIncome && (t.pay||"cash")==="credit" ? " · 💳"+(t.card||"") : ""}</div>
+        <div class="txn-date">${ds}${t.owner && owners.length>1 ? " · "+t.owner : ""}</div>
       </div>
       <div class="txn-right">
         <div class="txn-amt" style="color:#6BA89A">+S$ ${t.amount.toFixed(2)}</div>

@@ -1,4 +1,4 @@
-const CACHE = 'yuezh-demo-v1';
+const CACHE = 'yuezh-demo-v2';
 const ASSETS = ['/How-Much-to-Live/demo/', '/How-Much-to-Live/demo/index.html', '/How-Much-to-Live/demo/manifest.json', '/How-Much-to-Live/icon-192.png', '/How-Much-to-Live/icon-512.png', '/How-Much-to-Live/header-logo.png'];
 
 // Install: cache core files
