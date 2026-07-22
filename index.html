@@ -1,6 +1,6 @@
 <!-- build:20260519094015020057 -->
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0f0f0b">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="../icon-192.png">
-<title>活着要多少钱 · 演示版</title>
+<title>How Much To Live · Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -102,6 +102,11 @@
     background:linear-gradient(90deg,#C9A96E,#a07840);color:#0f0f0b;
     font-size:12px;font-weight:600;text-align:center;padding:6px 10px;
     padding-top:calc(6px + var(--safe-top));
+  }
+  .lang-btn{
+    background:rgba(15,15,11,0.15);border:1px solid rgba(15,15,11,0.35);color:#0f0f0b;
+    border-radius:10px;padding:2px 10px;font-size:11px;margin-left:6px;cursor:pointer;font-weight:700;
+    letter-spacing:.03em;
   }
   .demo-banner button{
     background:rgba(15,15,11,0.15);border:1px solid rgba(15,15,11,0.3);color:#0f0f0b;
@@ -460,8 +465,9 @@
 <body>
 
 <!-- DEMO BANNER -->
-<div class="demo-banner">🎭 演示版本 · 数据仅存在本次浏览中，刷新不丢失，关闭标签页即清空
-  <button onclick="resetDemoData()">重置演示数据</button>
+<div class="demo-banner"><span data-i18n="demo_banner">Demo</span>
+  <button onclick="resetDemoData()" data-i18n="demo_reset">Reset demo data</button>
+  <button class="lang-btn" onclick="toggleLang()" data-i18n="lang_btn">中文</button>
 </div>
 
 <!-- LOADING SCREEN -->
@@ -476,7 +482,7 @@
 
   <!-- progress -->
   <div class="splash-progress-wrap">
-    <div class="splash-progress-text" id="splash-msg">正在整理生活账本…</div>
+    <div class="splash-progress-text" id="splash-msg" data-i18n="splash1">Tidying up your ledger…</div>
     <div class="splash-bar-track">
       <div class="splash-bar-fill" id="splash-fill"></div>
     </div>
@@ -492,11 +498,11 @@
 
 <header>
   <nav>
-    <button class="nav-btn active" onclick="showPage('dashboard')">总览</button>
-    <button class="nav-btn" onclick="showPage('entry')">支出</button>
-    <button class="nav-btn" onclick="showPage('income')">收入</button>
-    <button class="nav-btn" onclick="showPage('history')">明细</button>
-    <button class="nav-btn" onclick="showPage('settings')">设置</button>
+    <button class="nav-btn active" data-i18n="nav_dash" onclick="showPage('dashboard')">总览</button>
+    <button class="nav-btn" data-i18n="nav_entry" onclick="showPage('entry')">支出</button>
+    <button class="nav-btn" data-i18n="nav_income" onclick="showPage('income')">收入</button>
+    <button class="nav-btn" data-i18n="nav_history" onclick="showPage('history')">明细</button>
+    <button class="nav-btn" data-i18n="nav_settings" onclick="showPage('settings')">设置</button>
   </nav>
 </header>
 
@@ -511,37 +517,37 @@
   <div class="page active" id="page-dashboard">
     <div class="owner-switch" id="dash-owner-switch" style="margin-top:10px;"></div>
     <div class="total-card">
-      <div class="total-lbl">本月总支出</div>
+      <div class="total-lbl" data-i18n="total_lbl">本月总支出</div>
       <div class="total-amt" id="total-amt">S$ 0.00</div>
-      <div class="total-sub" id="total-sub">暂无记录</div>
+      <div class="total-sub" id="total-sub" data-i18n="no_records">暂无记录</div>
     </div>
     <!-- CASH FLOW -->
     <div class="entry-card" style="margin-top:14px;padding:16px 18px;">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="section-title" style="margin:0;">现金流</div>
-        <button class="add-cat-btn" style="font-size:11px;padding:4px 10px;" onclick="addRepay()">＋ 记录还款</button>
+        <div class="section-title" style="margin:0;" data-i18n="cashflow">现金流</div>
+        <button class="add-cat-btn" style="font-size:11px;padding:4px 10px;" data-i18n="add_repay" onclick="addRepay()">＋ 记录还款</button>
       </div>
       <div id="cashflow-body" style="margin-top:10px;font-size:13px;color:var(--text-dim);line-height:2;"></div>
     </div>
 
-    <div class="section-title">各类别开支排序</div>
+    <div class="section-title" data-i18n="cat_ranking">各类别开支排序</div>
     <div id="cat-list"></div>
     <div id="donut-section" style="display:none">
-      <div class="section-title">占比分布</div>
+      <div class="section-title" data-i18n="donut_title">占比分布</div>
       <div class="donut-wrap">
         <svg id="donut-svg" width="150" height="150" viewBox="0 0 150 150"></svg>
         <div class="legend-items" id="legend-items"></div>
       </div>
     </div>
     <div id="fee-summary" style="display:none;margin-top:8px;">
-      <div class="section-title">手续费 / 汇率损失统计</div>
+      <div class="section-title" data-i18n="fee_title">手续费 / 汇率损失统计</div>
       <div style="background:rgba(201,122,122,0.08);border:1px solid rgba(201,122,122,0.2);border-radius:12px;padding:14px 16px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <span style="font-size:13px;color:var(--text-dim);">本月累计手续费/汇率损失</span>
+          <span style="font-size:13px;color:var(--text-dim);" data-i18n="fee_month_lbl">本月累计手续费/汇率损失</span>
           <span style="font-family:var(--font-serif);font-size:18px;color:#c97a7a;" id="fee-total">S$ 0.00</span>
         </div>
         <div id="fee-breakdown"></div>
-        <div style="font-size:11px;color:var(--text-faint);margin-top:8px;">仅供参考，已计入各类别总开销</div>
+        <div style="font-size:11px;color:var(--text-faint);margin-top:8px;" data-i18n="fee_note">仅供参考，已计入各类别总开销</div>
       </div>
     </div>
   </div>
@@ -549,19 +555,19 @@
   <!-- ENTRY -->
   <div class="page" id="page-entry">
     <div class="entry-card">
-      <div class="card-title">记一笔</div>
+      <div class="card-title" data-i18n="entry_title">记一笔</div>
       <div class="owner-switch" id="entry-owner-switch"></div>
       <div class="owner-switch" id="entry-pay-switch" style="margin-bottom:12px;"></div>
-      <div class="field-lbl">类别</div>
+      <div class="field-lbl" data-i18n="f_category">类别</div>
       <div class="cat-grid" id="cat-grid"></div>
       <div id="sub-area">
-        <div class="field-lbl">细分</div>
+        <div class="field-lbl" data-i18n="f_sub">细分</div>
         <div class="sub-grid" id="sub-grid"></div>
       </div>
       <!-- MYR CALCULATOR -->
       <div id="myr-toggle-wrap" style="display:none;">
         <div class="myr-toggle-row">
-          <span class="myr-toggle-lbl">马币消费换算</span>
+          <span class="myr-toggle-lbl" data-i18n="myr_toggle">马币消费换算</span>
           <label class="toggle-switch">
             <input type="checkbox" id="myr-toggle" onchange="toggleMyrCalc()">
             <span class="toggle-slider"></span>
@@ -569,40 +575,40 @@
         </div>
         <div class="myr-box" id="myr-box">
           <div class="myr-rate-row">
-            <span class="myr-rate-lbl">实时汇率 SGD 1 =</span>
-            <span class="myr-rate-val" id="myr-rate-display">加载中…</span>
+            <span class="myr-rate-lbl" data-i18n="myr_rate_lbl">实时汇率 SGD 1 =</span>
+            <span class="myr-rate-val" id="myr-rate-display" data-i18n="loading">加载中…</span>
           </div>
-          <div class="field-lbl" style="margin-top:0;">马币金额（RM）</div>
+          <div class="field-lbl" style="margin-top:0;" data-i18n="myr_amt_lbl">马币金额（RM）</div>
           <div class="myr-input-row">
             <span class="myr-sign">RM</span>
             <input type="number" id="myr-amt" min="0" step="0.01" placeholder="0.00" inputmode="decimal" oninput="calcMyr()">
           </div>
-          <div class="field-lbl" style="margin-top:0;">付款方式</div>
+          <div class="field-lbl" style="margin-top:0;" data-i18n="f_paymethod">付款方式</div>
           <div class="pay-method-grid" id="pay-method-grid">
             <button class="pay-chip" data-method="amaze" data-fee="0.004" onclick="selectPayMethod(this)">💳 Amaze</button>
             <button class="pay-chip" data-method="tng" data-fee="0.026" onclick="selectPayMethod(this)">📱 TNG (DBS)</button>
-            <button class="pay-chip" data-method="cash" data-fee="0" onclick="selectPayMethod(this)">💵 现金</button>
+            <button class="pay-chip" data-method="cash" data-fee="0" data-i18n="pay_cash" onclick="selectPayMethod(this)">💵 现金</button>
           </div>
           <div class="myr-result" id="myr-result" style="display:none;">
             <div class="myr-result-row">
-              <span class="myr-result-lbl">消费金额</span>
+              <span class="myr-result-lbl" data-i18n="myr_base">消费金额</span>
               <span class="myr-result-val" id="myr-base-sgd">—</span>
             </div>
             <div class="myr-result-row" id="myr-fee-row">
-              <span class="myr-result-lbl" id="myr-fee-lbl">手续费/汇率损失</span>
+              <span class="myr-result-lbl" id="myr-fee-lbl" data-i18n="myr_fee">手续费/汇率损失</span>
               <span class="myr-result-val fee" id="myr-fee-sgd">—</span>
             </div>
             <hr class="myr-divider">
             <div class="myr-result-row">
-              <span class="myr-result-lbl" style="font-weight:600;color:var(--text);">实际支出（SGD）</span>
+              <span class="myr-result-lbl" style="font-weight:600;color:var(--text);" data-i18n="myr_total">实际支出（SGD）</span>
               <span class="myr-result-val total" id="myr-total-sgd">—</span>
             </div>
           </div>
-          <button class="myr-apply-btn" id="myr-apply-btn" onclick="applyMyr()" disabled>✓ 填入记账栏</button>
+          <button class="myr-apply-btn" id="myr-apply-btn" data-i18n="myr_apply" onclick="applyMyr()" disabled>✓ 填入记账栏</button>
         </div>
       </div>
 
-      <div class="field-lbl">金额（SGD）</div>
+      <div class="field-lbl" data-i18n="f_amount">金额（SGD）</div>
       <input type="text" class="calc-display" id="amt-input" placeholder="0" inputmode="decimal" autocomplete="off" oninput="calcInput('amt')">
       <div class="calc-result" id="amt-result"></div>
       <div class="calc-pad" id="amt-pad">
@@ -623,9 +629,9 @@
         <button type="button" class="calc-key" onclick="calcKey('amt','⌫')">⌫</button>
         <button type="button" class="calc-key op" onclick="calcKey('amt','+')">+</button>
       </div>
-      <div class="field-lbl">备注（可选）</div>
-      <input type="text" id="note-input" placeholder="例：NTUC Fair Price">
-      <button class="submit-btn" id="submit-btn" onclick="addTxn()" disabled>＋ 记入</button>
+      <div class="field-lbl" data-i18n="f_note">备注（可选）</div>
+      <input type="text" id="note-input" data-i18n-ph="ph_note" placeholder="例：NTUC Fair Price">
+      <button class="submit-btn" id="submit-btn" data-i18n="submit_add" onclick="addTxn()" disabled>＋ 记入</button>
     </div>
   </div>
 
@@ -633,31 +639,31 @@
   <div class="page" id="page-history">
     <!-- Search bar -->
     <div style="margin-top:12px;padding:0 4px;">
-      <input type="text" id="hist-search" placeholder="搜索金额、备注、类别…" oninput="window.renderHist()"
+      <input type="text" id="hist-search" data-i18n-ph="ph_search" placeholder="搜索金额、备注、类别…" oninput="window.renderHist()"
         style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:12px;border:1px solid var(--border);
         background:rgba(255,255,255,0.04);color:var(--text);font-size:14px;font-family:var(--font-sans);outline:none;">
     </div>
     <!-- Type toggle -->
     <div style="display:flex;gap:8px;margin:10px 4px 0;">
-      <button id="hist-type-expense" class="nav-btn active" onclick="setHistType('expense')" style="flex:1;text-align:center;padding:6px 0;font-size:12px;">支出</button>
-      <button id="hist-type-income" class="nav-btn" onclick="setHistType('income')" style="flex:1;text-align:center;padding:6px 0;font-size:12px;">收入</button>
+      <button id="hist-type-expense" class="nav-btn active" data-i18n="hist_expense" onclick="setHistType('expense')" style="flex:1;text-align:center;padding:6px 0;font-size:12px;">支出</button>
+      <button id="hist-type-income" class="nav-btn" data-i18n="hist_income" onclick="setHistType('income')" style="flex:1;text-align:center;padding:6px 0;font-size:12px;">收入</button>
     </div>
     <!-- Owner filter -->
     <div class="owner-switch" id="hist-owner-switch" style="margin-top:8px;"></div>
     <div id="filter-bar-wrap" style="margin-top:8px;display:none;">
       <div id="sub-nav-wrap" style="display:none;">
         <div class="sub-nav">
-          <button class="sub-nav-btn" id="sub-nav-prev" onclick="navSub(-1)">‹ 上一个</button>
+          <button class="sub-nav-btn" id="sub-nav-prev" data-i18n="sub_prev" onclick="navSub(-1)">‹ 上一个</button>
           <span class="sub-nav-current" id="sub-nav-current"></span>
-          <button class="sub-nav-btn" id="sub-nav-next" onclick="navSub(1)">下一个 ›</button>
+          <button class="sub-nav-btn" id="sub-nav-next" data-i18n="sub_next" onclick="navSub(1)">下一个 ›</button>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <button class="sub-nav-btn" onclick="backToCatDetail()" style="flex:1;text-align:center;">↩ 细分排行</button>
-          <button class="sub-nav-btn" onclick="clearSubFilter()" style="flex:1;text-align:center;">查看全部明细</button>
+          <button class="sub-nav-btn" data-i18n="back_rank" onclick="backToCatDetail()" style="flex:1;text-align:center;">↩ 细分排行</button>
+          <button class="sub-nav-btn" data-i18n="view_all" onclick="clearSubFilter()" style="flex:1;text-align:center;">查看全部明细</button>
         </div>
       </div>
       <div class="filter-bar" id="simple-filter-bar">
-        <span class="filter-label">筛选</span>
+        <span class="filter-label" data-i18n="filter">筛选</span>
         <div class="filter-chip" id="filter-chip">
           <span id="filter-chip-label"></span>
           <button class="filter-chip-clear" onclick="clearFilter()">×</button>
@@ -670,17 +676,17 @@
   <!-- INCOME -->
   <div class="page" id="page-income">
     <div class="total-card" style="margin-top:12px;background:rgba(107,168,154,0.1);border-color:rgba(107,168,154,0.3);">
-      <div class="total-lbl">本月收入合计</div>
+      <div class="total-lbl" data-i18n="income_total_lbl">本月收入合计</div>
       <div class="total-amt" id="income-total" style="color:#6BA89A">S$ 0.00</div>
       <div class="total-sub" id="income-net"></div>
     </div>
 
     <div class="entry-card" style="margin-top:0;">
-      <div class="card-title">记录收入</div>
+      <div class="card-title" data-i18n="income_title">记录收入</div>
       <div class="owner-switch" id="income-owner-switch"></div>
-      <div class="field-lbl">类别</div>
+      <div class="field-lbl" data-i18n="f_category">类别</div>
       <div class="cat-grid" id="income-cat-grid"></div>
-      <div class="field-lbl">金额（SGD）</div>
+      <div class="field-lbl" data-i18n="f_amount">金额（SGD）</div>
       <input type="text" class="calc-display" id="income-amt-input" placeholder="0" inputmode="decimal" autocomplete="off" oninput="calcInput('income-amt')">
       <div class="calc-result" id="income-amt-result"></div>
       <div class="calc-pad" id="income-amt-pad">
@@ -701,13 +707,13 @@
         <button type="button" class="calc-key" onclick="calcKey('income-amt','⌫')">⌫</button>
         <button type="button" class="calc-key op" onclick="calcKey('income-amt','+')">+</button>
       </div>
-      <div class="field-lbl">备注（可选）</div>
-      <input type="text" id="income-note-input" placeholder="例：5月工资">
-      <button class="submit-btn" id="income-submit-btn" onclick="addIncomeTxn()" disabled style="background:#6BA89A;">＋ 记入收入</button>
+      <div class="field-lbl" data-i18n="f_note">备注（可选）</div>
+      <input type="text" id="income-note-input" data-i18n-ph="ph_income_note" placeholder="例：5月工资">
+      <button class="submit-btn" id="income-submit-btn" data-i18n="submit_income" onclick="addIncomeTxn()" disabled style="background:#6BA89A;">＋ 记入收入</button>
     </div>
 
     <div style="margin-top:8px;">
-      <div class="section-title">本月收入明细</div>
+      <div class="section-title" data-i18n="income_hist_title">本月收入明细</div>
       <div id="income-history-list"></div>
     </div>
   </div>
@@ -717,16 +723,16 @@
     <div class="settings-wrap">
       <!-- Owner names -->
       <div class="settings-header">
-        <div class="settings-title">记账人设置</div>
+        <div class="settings-title" data-i18n="set_people">记账人设置</div>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:20px;">
         <div style="flex:1;">
-          <div class="field-lbl" style="margin-bottom:4px;">记账人 1</div>
+          <div class="field-lbl" style="margin-bottom:4px;" data-i18n="person1">记账人 1</div>
           <input type="text" id="owner1-input" value="" onchange="updateOwnerName(0,this.value)"
             style="width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text);font-size:14px;">
         </div>
         <div style="flex:1;">
-          <div class="field-lbl" style="margin-bottom:4px;">记账人 2</div>
+          <div class="field-lbl" style="margin-bottom:4px;" data-i18n="person2">记账人 2</div>
           <input type="text" id="owner2-input" value="" onchange="updateOwnerName(1,this.value)"
             style="width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text);font-size:14px;">
         </div>
@@ -734,20 +740,20 @@
 
       <!-- Credit cards -->
       <div class="settings-header">
-        <div class="settings-title">信用卡管理</div>
-        <button class="add-cat-btn" onclick="addCard()">＋ 添加信用卡</button>
+        <div class="settings-title" data-i18n="set_cards">信用卡管理</div>
+        <button class="add-cat-btn" data-i18n="add_card" onclick="addCard()">＋ 添加信用卡</button>
       </div>
       <div id="card-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;"></div>
 
       <div class="settings-header">
-        <div class="settings-title">类别管理</div>
-        <button class="add-cat-btn" onclick="openAddCatModal()">＋ 新增类别</button>
+        <div class="settings-title" data-i18n="set_cats">类别管理</div>
+        <button class="add-cat-btn" data-i18n="add_cat" onclick="openAddCatModal()">＋ 新增类别</button>
       </div>
       <div class="settings-list" id="settings-list"></div>
 
       <div class="settings-header" style="margin-top:28px;">
-        <div class="settings-title">收入类别</div>
-        <button class="add-cat-btn" style="background:#6BA89A;" onclick="openAddIncomeCatModal()">＋ 新增类别</button>
+        <div class="settings-title" data-i18n="set_income_cats">收入类别</div>
+        <button class="add-cat-btn" style="background:#6BA89A;" data-i18n="add_cat" onclick="openAddIncomeCatModal()">＋ 新增类别</button>
       </div>
       <div class="settings-list" id="income-settings-list"></div>
     </div>
@@ -757,24 +763,24 @@
 <!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
   <div class="modal">
-    <div class="modal-title" id="modal-title">新增类别</div>
+    <div class="modal-title" id="modal-title" data-i18n="modal_new_cat">新增类别</div>
     <div class="modal-field">
-      <div class="modal-lbl">图标（Emoji）</div>
+      <div class="modal-lbl" data-i18n="modal_emoji">图标（Emoji）</div>
       <input class="modal-input" id="modal-emoji" placeholder="📦" maxlength="4">
     </div>
     <div class="modal-field">
-      <div class="modal-lbl">名称</div>
-      <input class="modal-input" id="modal-name" placeholder="例：医疗">
+      <div class="modal-lbl" data-i18n="modal_name">名称</div>
+      <input class="modal-input" id="modal-name" data-i18n-ph="ph_cat_name" placeholder="例：医疗">
     </div>
     <div class="modal-field">
-      <div class="modal-lbl">颜色</div>
+      <div class="modal-lbl" data-i18n="modal_color">颜色</div>
       <div class="color-grid" id="color-grid"></div>
     </div>
     <div class="modal-field">
       <div style="display:flex;align-items:center;gap:12px;">
         <div style="flex:1;">
-          <div class="modal-lbl">马币消费</div>
-          <div style="font-size:12px;color:var(--text-faint);margin-top:2px;">开启后记账时显示汇率换算器</div>
+          <div class="modal-lbl" data-i18n="modal_myr">马币消费</div>
+          <div style="font-size:12px;color:var(--text-faint);margin-top:2px;" data-i18n="modal_myr_hint">开启后记账时显示汇率换算器</div>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="modal-myr">
@@ -783,8 +789,8 @@
       </div>
     </div>
     <div class="modal-btns">
-      <button class="modal-cancel" onclick="closeModal()">取消</button>
-      <button class="modal-confirm" onclick="confirmModal()">确认</button>
+      <button class="modal-cancel" data-i18n="cancel" onclick="closeModal()">取消</button>
+      <button class="modal-confirm" data-i18n="confirm" onclick="confirmModal()">确认</button>
     </div>
   </div>
 </div><!-- end pages-container -->
@@ -808,47 +814,47 @@
       <svg id="cd-pie" width="100%" height="160" viewBox="0 0 320 160" style="display:block;"></svg>
       <div id="cd-pie-legend" style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;"></div>
     </div>
-    <button class="cat-detail-see-all" onclick="catDetailGoHistory()">查看全部明细 →</button>
+    <button class="cat-detail-see-all" data-i18n="view_all_arrow" onclick="catDetailGoHistory()">查看全部明细 →</button>
   </div>
 </div>
 
 <!-- EDIT TXN MODAL -->
 <div id="edit-overlay" onclick="closeEditOutside(event)">
   <div id="edit-modal">
-    <div class="modal-title">编辑记录</div>
+    <div class="modal-title" data-i18n="edit_title">编辑记录</div>
     <div class="modal-field">
-      <div class="modal-lbl">月份</div>
+      <div class="modal-lbl" data-i18n="f_month">月份</div>
       <div class="edit-month-row">
         <select id="edit-year"></select>
         <select id="edit-month-sel"></select>
       </div>
     </div>
     <div class="modal-field">
-      <div class="modal-lbl">类别</div>
+      <div class="modal-lbl" data-i18n="f_category">类别</div>
       <div class="edit-cat-grid" id="edit-cat-grid"></div>
     </div>
     <div class="modal-field" id="edit-sub-field" style="display:none">
-      <div class="modal-lbl">细分</div>
+      <div class="modal-lbl" data-i18n="f_sub">细分</div>
       <div class="edit-sub-grid" id="edit-sub-grid"></div>
     </div>
     <div class="modal-field" id="edit-pay-field">
-      <div class="modal-lbl">支付方式</div>
+      <div class="modal-lbl" data-i18n="f_paytype">支付方式</div>
       <div class="edit-cat-grid" id="edit-pay-grid"></div>
     </div>
     <div class="modal-field">
-      <div class="modal-lbl">金额（SGD）</div>
+      <div class="modal-lbl" data-i18n="f_amount">金额（SGD）</div>
       <div class="amount-row">
         <span class="dollar-sign">S$</span>
         <input type="number" id="edit-amt" min="0" step="0.01" placeholder="0.00" inputmode="decimal">
       </div>
     </div>
     <div class="modal-field">
-      <div class="modal-lbl">备注</div>
-      <input id="edit-note" placeholder="备注（可选）">
+      <div class="modal-lbl" data-i18n="f_note">备注</div>
+      <input id="edit-note" data-i18n-ph="ph_note_opt" placeholder="备注（可选）">
     </div>
     <div class="modal-btns">
-      <button class="modal-cancel" onclick="closeEdit()">取消</button>
-      <button class="modal-confirm" onclick="saveEdit()">保存</button>
+      <button class="modal-cancel" data-i18n="cancel" onclick="closeEdit()">取消</button>
+      <button class="modal-confirm" data-i18n="save" onclick="saveEdit()">保存</button>
     </div>
   </div>
 </div>
@@ -931,7 +937,248 @@ const DEFAULT_INCOME_CATS=[
   {id:'stocks', label:'股票',   emoji:'📈',color:'#7EA88A',order:5},
   {id:'windfall',label:'意外之财',emoji:'🍀',color:'#C9A96E',order:6},
 ];
-const MONTHS=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+// ── I18N ──────────────────────────────────────────────
+const MONTHS_ZH=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+const MONTHS_EN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function MONS(){ return lang==='en' ? MONTHS_EN : MONTHS_ZH; }
+
+let lang = localStorage.getItem('mz_lang') || 'en';   // default: English
+
+const STR = {
+  zh:{
+    doc_title:'活着要多少钱 · 演示版',
+    lang_btn:'EN',
+    demo_banner:'🎭 演示版本 · 数据仅存在本次浏览中，刷新不丢失，关闭标签页即清空',
+    demo_reset:'重置演示数据',
+    nav_dash:'总览', nav_entry:'支出', nav_income:'收入', nav_history:'明细', nav_settings:'设置',
+    total_lbl:'本月总支出', no_records:'暂无记录',
+    cashflow:'现金流', add_repay:'＋ 记录还款',
+    cat_ranking:'各类别开支排序', donut_title:'占比分布',
+    fee_title:'手续费 / 汇率损失统计', fee_month_lbl:'本月累计手续费/汇率损失',
+    fee_note:'仅供参考，已计入各类别总开销',
+    entry_title:'记一笔', f_category:'类别', f_sub:'细分',
+    myr_toggle:'马币消费换算', myr_rate_lbl:'实时汇率 SGD 1 =', loading:'加载中…',
+    myr_amt_lbl:'马币金额（RM）', f_paymethod:'付款方式', pay_cash:'💵 现金',
+    myr_base:'消费金额', myr_fee:'手续费/汇率损失', myr_total:'实际支出（SGD）',
+    myr_apply:'✓ 填入记账栏',
+    f_amount:'金额（SGD）', f_note:'备注（可选）', ph_note:'例：NTUC Fair Price',
+    submit_add:'＋ 记入',
+    ph_search:'搜索金额、备注、类别…', hist_expense:'支出', hist_income:'收入',
+    sub_prev:'‹ 上一个', sub_next:'下一个 ›', back_rank:'↩ 细分排行',
+    view_all:'查看全部明细', view_all_arrow:'查看全部明细 →', filter:'筛选',
+    income_total_lbl:'本月收入合计', income_title:'记录收入',
+    ph_income_note:'例：5月工资', submit_income:'＋ 记入收入', income_hist_title:'本月收入明细',
+    set_people:'记账人设置', person1:'记账人 1', person2:'记账人 2',
+    set_cards:'信用卡管理', add_card:'＋ 添加信用卡',
+    set_cats:'类别管理', add_cat:'＋ 新增类别', set_income_cats:'收入类别',
+    modal_new_cat:'新增类别', modal_edit_cat:'编辑类别',
+    modal_new_income_cat:'新增收入类别', modal_edit_income_cat:'编辑收入类别',
+    modal_emoji:'图标（Emoji）', modal_name:'名称', ph_cat_name:'例：医疗',
+    modal_color:'颜色', modal_myr:'马币消费', modal_myr_hint:'开启后记账时显示汇率换算器',
+    cancel:'取消', confirm:'确认', save:'保存',
+    edit_title:'编辑记录', f_month:'月份', f_paytype:'支付方式', ph_note_opt:'备注（可选）',
+    // dynamic
+    synced:'数据已同步', offline_sync:'离线中 · 将在上线后同步',
+    demo_mode_bar:'演示模式 · 数据仅存于本次浏览', demo_reset_done:'已重置为演示数据',
+    save_fail:'云端保存失败: ',
+    splash1:'正在整理生活账本…', splash2:'加载账目数据…', splash3:'连接云端…', splash4:'整理完成中…',
+    splash_ready:'准备好了 ✓',
+    pending_badge:' 条待同步', pending:'待同步',
+    switched_to:'已切换为 ',
+    card_prompt:'信用卡名称（如：DBS、UOB）', card_exists:'该卡已存在',
+    del_card_confirm_a:'删除信用卡「', del_card_confirm_b:'」？（已有记录不受影响）',
+    no_cards:'暂无信用卡，添加后可分卡追踪现金流',
+    shared:'共同', all:'全部',
+    repay_prompt:'本月信用卡还款金额 (S$)，支持算式', invalid_amount:'金额无效',
+    which_card:'哪张卡？输入序号：', repay_note_prompt:'备注（可选，如：DBS卡）',
+    repay_logged:'已记录还款 S$ ', repay_deleted:'已删除还款记录', repay:'还款',
+    credit_card:'信用卡',
+    cf_in:'本月现金流入', cf_cash_spend:'本月现金/转账消费', cf_repay:'本月信用卡还款',
+    cf_out:'本月现金流出', cf_net:'现金流结余',
+    cf_last_cc:'上月刷卡（预计本月应还）：', cf_this_cc:'本月刷卡（预计下月应还）：',
+    records:' 笔记录', income_word:'收入', net_word:'结余',
+    direct:'直接记入', click_detail:'点击查看明细', biggest:'最大开支',
+    pay_cash_transfer:'💵 现金/转账', pay_credit_generic:'💳 信用卡', no_split:'不分',
+    fee_amaze:'汇率溢价', fee_tng:'手续费', fee_word:'手续费',
+    fee_amaze_full:'汇率溢价 (0.4%)', fee_tng_full:'手续费 (2.6%)', fee_none:'无手续费',
+    no_match:'没有找到匹配的记录', no_income_month:'本月暂无收入记录',
+    no_sub_records:'该细分本月暂无记录', no_cat_records:'该类别本月暂无记录',
+    no_records_month:'本月暂无记录',
+    edit:'编辑', del:'删除', del_x:'✕ 删除', switch_owner:'切换记账人',
+    deleted:'已删除', deleted_with_fee:'已删除（含手续费）',
+    no_subs:'暂无细分', ph_add_sub:'输入细分名称，按 Enter 添加', add:'添加',
+    edit_sub_prompt:'编辑细分名称', sub_exists:'该细分已存在',
+    updated_to_a:'已更新为「', updated_to_b:'」',
+    added_a:'已添加「', added_b:'」', updated_a:'已更新「', updated_b:'」',
+    deleted_a:'已删除「', deleted_b:'」',
+    sub_deleted:'已删除细分',
+    del_cat_has_a:'「', del_cat_has_b:'」有已有记录，删除后记录保留但无法显示类别名。确认删除？',
+    del_cat_a:'确认删除「', del_cat_b:'」？',
+    color_used:' (已使用)', name_required:'请输入名称', updated:'已更新',
+    rate_fail:'无法获取，请手动输入', hours_ago:'h 前',
+    filled_in:'已填入 S$ ', recorded:'已记入 S$ ', income_recorded:'已记入收入 S$ ',
+    month_total:'本月合计 S$ ', total_word:'合计',
+    expense_month:'本月支出', net_prefix:'结余 ',
+    fill_cat_amt:'请填写类别和金额',
+    error_prefix:'错误: ', sync_error:'同步错误: ',
+    cash_word:'现金',
+  },
+  en:{
+    doc_title:'How Much To Live · Demo',
+    lang_btn:'中文',
+    demo_banner:'🎭 Demo · data lives in this tab only — refresh keeps it, closing clears it',
+    demo_reset:'Reset demo data',
+    nav_dash:'Overview', nav_entry:'Expenses', nav_income:'Income', nav_history:'History', nav_settings:'Settings',
+    total_lbl:'Spent this month', no_records:'No records yet',
+    cashflow:'Cash flow', add_repay:'＋ Log repayment',
+    cat_ranking:'Spending by category', donut_title:'Breakdown',
+    fee_title:'Fees / FX loss', fee_month_lbl:'Fees & FX loss this month',
+    fee_note:'For reference — already counted in category totals',
+    entry_title:'New expense', f_category:'Category', f_sub:'Subcategory',
+    myr_toggle:'MYR converter', myr_rate_lbl:'Live rate SGD 1 =', loading:'Loading…',
+    myr_amt_lbl:'Amount in MYR (RM)', f_paymethod:'Payment method', pay_cash:'💵 Cash',
+    myr_base:'Spend', myr_fee:'Fee / FX loss', myr_total:'Actual spend (SGD)',
+    myr_apply:'✓ Use this amount',
+    f_amount:'Amount (SGD)', f_note:'Note (optional)', ph_note:'e.g. NTUC FairPrice',
+    submit_add:'＋ Add',
+    ph_search:'Search amount, note, category…', hist_expense:'Expenses', hist_income:'Income',
+    sub_prev:'‹ Prev', sub_next:'Next ›', back_rank:'↩ Sub ranking',
+    view_all:'View all records', view_all_arrow:'View all records →', filter:'Filter',
+    income_total_lbl:'Income this month', income_title:'New income',
+    ph_income_note:'e.g. May salary', submit_income:'＋ Add income', income_hist_title:'Income this month',
+    set_people:'People', person1:'Person 1', person2:'Person 2',
+    set_cards:'Credit cards', add_card:'＋ Add card',
+    set_cats:'Expense categories', add_cat:'＋ New category', set_income_cats:'Income categories',
+    modal_new_cat:'New category', modal_edit_cat:'Edit category',
+    modal_new_income_cat:'New income category', modal_edit_income_cat:'Edit income category',
+    modal_emoji:'Icon (emoji)', modal_name:'Name', ph_cat_name:'e.g. Medical',
+    modal_color:'Colour', modal_myr:'MYR spending', modal_myr_hint:'Shows the currency converter when adding an expense',
+    cancel:'Cancel', confirm:'Confirm', save:'Save',
+    edit_title:'Edit record', f_month:'Month', f_paytype:'Payment', ph_note_opt:'Note (optional)',
+    // dynamic
+    synced:'Synced', offline_sync:'Offline · will sync when back online',
+    demo_mode_bar:'Demo mode · data stays in this tab', demo_reset_done:'Demo data reset',
+    save_fail:'Cloud save failed: ',
+    splash1:'Tidying up your ledger…', splash2:'Loading records…', splash3:'Connecting…', splash4:'Almost there…',
+    splash_ready:'Ready ✓',
+    pending_badge:' pending', pending:'pending',
+    switched_to:'Switched to ',
+    card_prompt:'Card name (e.g. DBS, UOB)', card_exists:'That card already exists',
+    del_card_confirm_a:'Delete card "', del_card_confirm_b:'"? (existing records are unaffected)',
+    no_cards:'No cards yet — add one to track cash flow per card',
+    shared:'Shared', all:'All',
+    repay_prompt:'Card repayment this month (S$) — math expressions allowed', invalid_amount:'Invalid amount',
+    which_card:'Which card? Enter the number:', repay_note_prompt:'Note (optional, e.g. DBS card)',
+    repay_logged:'Repayment logged S$ ', repay_deleted:'Repayment deleted', repay:'Repayment',
+    credit_card:'Credit card',
+    cf_in:'Cash in this month', cf_cash_spend:'Cash / transfer spend', cf_repay:'Card repayments',
+    cf_out:'Cash out this month', cf_net:'Net cash flow',
+    cf_last_cc:'Last month\'s card spend (due this month): ', cf_this_cc:'This month\'s card spend (due next month): ',
+    records:' records', income_word:'Income', net_word:'Net',
+    direct:'Uncategorised', click_detail:'Tap for details', biggest:'Top spend',
+    pay_cash_transfer:'💵 Cash / transfer', pay_credit_generic:'💳 Credit card', no_split:'None',
+    fee_amaze:'FX markup', fee_tng:'Fee', fee_word:'Fee',
+    fee_amaze_full:'FX markup (0.4%)', fee_tng_full:'Fee (2.6%)', fee_none:'No fee',
+    no_match:'No matching records', no_income_month:'No income this month',
+    no_sub_records:'No records for this subcategory', no_cat_records:'No records for this category',
+    no_records_month:'No records this month',
+    edit:'Edit', del:'Delete', del_x:'✕ Delete', switch_owner:'Switch person',
+    deleted:'Deleted', deleted_with_fee:'Deleted (incl. fee)',
+    no_subs:'No subcategories', ph_add_sub:'Type a subcategory, press Enter', add:'Add',
+    edit_sub_prompt:'Edit subcategory name', sub_exists:'That subcategory already exists',
+    updated_to_a:'Renamed to "', updated_to_b:'"',
+    added_a:'Added "', added_b:'"', updated_a:'Updated "', updated_b:'"',
+    deleted_a:'Deleted "', deleted_b:'"',
+    sub_deleted:'Subcategory deleted',
+    del_cat_has_a:'"', del_cat_has_b:'" has existing records. They will be kept but lose the category name. Delete anyway?',
+    del_cat_a:'Delete "', del_cat_b:'"?',
+    color_used:' (in use)', name_required:'Please enter a name', updated:'Updated',
+    rate_fail:'Unavailable — enter manually', hours_ago:'h ago',
+    filled_in:'Filled in S$ ', recorded:'Added S$ ', income_recorded:'Income added S$ ',
+    month_total:'This month S$ ', total_word:'Total',
+    expense_month:'Spent this month', net_prefix:'Net ',
+    fill_cat_amt:'Please pick a category and enter an amount',
+    error_prefix:'Error: ', sync_error:'Sync error: ',
+    cash_word:'Cash',
+  }
+};
+
+function L(k){
+  const d = STR[lang] || STR.en;
+  return (k in d) ? d[k] : (STR.zh[k] !== undefined ? STR.zh[k] : k);
+}
+
+// Default category / subcategory names — translated for display only.
+// Stored data keeps the original label so switching language never mutates records.
+const CAT_EN = {
+  food:'Food', cat2:'Cat', jb:'JB trips', moto:'Motorbike', shop:'Shopping',
+  ent:'Entertainment', soc:'Social', gift:'Gifts', ins:'Insurance', loan:'Study loan',
+  fam:'Household', invest:'Investing', travel:'Travel',
+  salary:'Salary', parttime:'Part-time', angbao:'Ang bao', trade:'Buy & sell',
+  refund:'Refunds', stocks:'Stocks', windfall:'Windfall'
+};
+const SUB_EN = {
+  '超市':'Groceries','外食':'Eating out',
+  '猫砂':'Litter','猫干粮':'Dry food','猫罐头':'Wet food','猫补品':'Supplements',
+  '猫衣物/玩具/用品':'Clothes / toys / supplies',
+  '吃饭':'Food','住宿':'Stay','按摩':'Massage','购物':'Shopping','娱乐':'Entertainment',
+  '车贷':'Bike loan','油费':'Petrol','保养':'Servicing','洗车':'Wash','修车':'Repairs',
+  '电影':'Movies','看演出':'Live shows','股票':'Stocks',
+  '新山':'Johor Bahru','KL':'KL','泰国':'Thailand','越南':'Vietnam','日本':'Japan','中国':'China',
+  '手续费/汇率':'Fee / FX'
+};
+// Seeded demo content (owner names, card names, notes)
+const DEMO_EN = {
+  '我':'Me','小乖':'Partner','小伙伴':'Partner','演示卡':'Demo Card',
+  '牛肉面':'Beef noodles','NTUC 采购':'NTUC run','冬季外套':'Winter jacket',
+  '周末场':'Weekend show','周末小旅行':'Weekend getaway','朋友聚餐':'Dinner with friends',
+  '水电网费':'Utilities & wifi','月薪':'Monthly salary','兼职收入':'Part-time income'
+};
+
+function catLbl(c){
+  if(!c) return '';
+  if(lang==='en' && !c.i18nOff && CAT_EN[c.id]) return CAT_EN[c.id];
+  return c.label;
+}
+function subLbl(s){
+  if(!s) return s;
+  if(s==='直接记入') return L('direct');
+  if(lang==='en' && SUB_EN[s]) return SUB_EN[s];
+  return s;
+}
+function dtxt(s){
+  if(!s) return s;
+  if(lang==='en' && DEMO_EN[s]) return DEMO_EN[s];
+  return s;
+}
+
+function applyStaticI18n(){
+  document.documentElement.lang = (lang==='en' ? 'en' : 'zh');
+  document.title = L('doc_title');
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    el.textContent = L(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    el.placeholder = L(el.getAttribute('data-i18n-ph'));
+  });
+}
+
+window.toggleLang = function(){
+  lang = (lang === 'en') ? 'zh' : 'en';
+  localStorage.setItem('mz_lang', lang);
+  applyStaticI18n();
+  try{ if(myrRate){ const el=document.getElementById('myr-rate-display');
+        if(el) el.textContent = `MYR ${myrRate.toFixed(4)}`; } }catch(e){}
+  try{ updateMonthLabel(); }catch(e){}
+  try{ updateOwnerUI(); }catch(e){}
+  try{ renderDash(); }catch(e){}
+  try{ buildEntry(); }catch(e){}
+  try{ buildIncomeEntry(); }catch(e){}
+  try{ renderSettings(); }catch(e){}
+  try{ window.renderHist(); }catch(e){}
+  try{ buildOwnerSwitch3('hist-owner-switch', histOwner, function(v){ window.setHistOwner(v); }); }catch(e){}
+};
+// ──────────────────────────────────────────────────────
 
 // ── STATE ──
 let cats = [];
@@ -997,7 +1244,7 @@ async function flushPending(){
     await batch.commit();
     pendingQueue = pendingQueue.filter(op => !toFlush.includes(op));
     savePending();
-    showSyncBar('synced', '数据已同步');
+    showSyncBar('synced', L('synced'));
     setTimeout(hideSyncBar, 2500);
     updatePendingUI();
   } catch(e){
@@ -1025,11 +1272,11 @@ window.addEventListener('offline', () => {});
 async function fsSetTxn(txn){
   if(isOnline){
     try{ await setDoc(doc(db,'txns',txn.id), txn); return; }
-    catch(e){ toast('云端保存失败: ' + e.message); }
+    catch(e){ toast(L('save_fail') + e.message); }
   }
   pendingQueue.push({type:'setTxn', data:txn});
   savePending();
-  showSyncBar('offline','离线中 · 将在上线后同步');
+  showSyncBar('offline',L('offline_sync'));
 }
 
 async function fsDelTxn(id){
@@ -1164,7 +1411,7 @@ async function init(){
   if(!seeded){ seedDemoData(); localStorage.setItem('mz_demo_seeded','1'); }
   else { loadDemoDataFromSession(); }
 
-  showSyncBar('offline','演示模式 · 数据仅存于本次浏览');
+  showSyncBar('offline',L('demo_mode_bar'));
   setTimeout(hideSyncBar, 3000);
   hideLoading();
   updateOwnerUI();
@@ -1230,7 +1477,7 @@ function loadDemoDataFromSession(){
 window.resetDemoData = function(){
   seedDemoData();
   updateOwnerUI(); buildDashOwnerSwitch(); renderDash(); buildEntry(); buildIncomeEntry(); renderSettings();
-  toast('已重置为演示数据');
+  toast(L('demo_reset_done'));
 };
 
 function hideLoading(){
@@ -1243,7 +1490,7 @@ function hideLoading(){
   // Animate bar to 100%
   fill.style.width = '100%';
   if(pct) pct.textContent = '100%';
-  if(msg) msg.textContent = '准备好了 ✓';
+  if(msg) msg.textContent = L('splash_ready');
 
   setTimeout(()=>{
     const el = document.getElementById('loading');
@@ -1259,7 +1506,7 @@ function hideLoading(){
   let p = 0;
   const fill = document.getElementById('splash-fill');
   const pct  = document.getElementById('splash-pct');
-  const msgs = ['正在整理生活账本…','加载账目数据…','连接云端…','整理完成中…'];
+  const msgs = [L('splash1'),L('splash2'),L('splash3'),L('splash4')];
   const msg  = document.getElementById('splash-msg');
   const steps = [
     {target:25, speed:35}, {target:50, speed:55},
@@ -1291,7 +1538,7 @@ function updatePendingUI(){
   if(pCount>0){
     const badge = document.createElement('span');
     badge.id='pending-badge'; badge.className='pending-badge';
-    badge.textContent=`${pCount} 条待同步`;
+    badge.textContent=`${pCount}${L('pending_badge')}`;
     document.getElementById('total-sub').appendChild(badge);
   }
 }
@@ -1318,7 +1565,9 @@ window.changeMonth=function(d){
   setTimeout(()=>{ dash.classList.remove(anim); }, 260);
 };
 function updateMonthLabel(){
-  document.getElementById('month-label').textContent=`${curY} 年 ${MONTHS[curM-1]}`;
+  document.getElementById('month-label').textContent = lang==='en'
+    ? `${MONS()[curM-1]} ${curY}`
+    : `${curY} 年 ${MONS()[curM-1]}`;
   document.getElementById('next-btn').disabled=smk()===cmk();
 }
 
@@ -1343,7 +1592,7 @@ function buildOwnerSwitch(elId, selected, onSelect){
   owners.forEach(function(o){
     var btn = document.createElement('button');
     btn.className = 'owner-btn' + (o===selected?' active':'');
-    btn.textContent = o;
+    btn.textContent = dtxt(o);
     btn.onclick = function(){ onSelect(o); };
     el.appendChild(btn);
   });
@@ -1355,7 +1604,7 @@ window.switchTxnOwner=async function(id){
   var cur = t.owner || owners[0];
   t.owner = cur===owners[0] ? owners[1] : owners[0];
   window.renderHist(); renderDash();
-  toast('已切换为 '+t.owner);
+  toast(L('switched_to')+dtxt(t.owner));
   if(isOnline){ try{ await setDoc(doc(db,'txns',t.id),t); return; }catch(e){} }
   pendingQueue.push({type:'setTxn',data:t}); savePending();
 };
@@ -1366,43 +1615,43 @@ window.switchIncomeTxnOwner=async function(id){
   var cur = t.owner || owners[0];
   t.owner = cur===owners[0] ? owners[1] : owners[0];
   window.renderHist(); renderDash();
-  toast('已切换为 '+t.owner);
+  toast(L('switched_to')+dtxt(t.owner));
   if(isOnline){ try{ await setDoc(doc(db,'incomeTxns',t.id),t); return; }catch(e){} }
   pendingQueue.push({type:'setIncomeTxn',data:t}); savePending();
 };
 
 window.addCard = function(){
-  const name = prompt('信用卡名称（如：DBS、UOB）');
+  const name = prompt(L('card_prompt'));
   if(name === null) return;
   const trimmed = name.trim();
   if(!trimmed) return;
-  if(cards.includes(trimmed)){ toast('该卡已存在'); return; }
+  if(cards.includes(trimmed)){ toast(L('card_exists')); return; }
   cards.push(trimmed);
   saveCards();
   renderCardSettings();
   buildPaySwitch();
-  toast(`已添加「${trimmed}」`);
+  toast(L('added_a')+trimmed+L('added_b'));
 };
 
 window.delCard = function(name){
-  if(!confirm(`删除信用卡「${name}」？（已有记录不受影响）`)) return;
+  if(!confirm(L('del_card_confirm_a')+dtxt(name)+L('del_card_confirm_b'))) return;
   cards = cards.filter(c=>c!==name);
   if(selCard===name){ selCard=''; localStorage.setItem('mz_selCard',''); }
   saveCards();
   renderCardSettings();
   buildPaySwitch();
-  toast('已删除');
+  toast(L('deleted'));
 };
 
 function renderCardSettings(){
   const el = document.getElementById('card-list');
   if(!el) return;
   if(!cards.length){
-    el.innerHTML = '<span class="no-sub">暂无信用卡，添加后可分卡追踪现金流</span>';
+    el.innerHTML = '<span class="no-sub">'+L('no_cards')+'</span>';
     return;
   }
   el.innerHTML = cards.map(c=>`
-    <div class="sub-tag">💳 ${c}
+    <div class="sub-tag">💳 ${dtxt(c)}
       <button class="sub-tag-del" onclick="delCard('${c}')">×</button>
     </div>`).join('');
 }
@@ -1447,7 +1696,7 @@ function buildDashOwnerSwitch(){
   var state = { dragIdx:-1, isDragging:false };
 
   order.forEach(function(optId, idx){
-    var label = optId==='all' ? '共同' : optId;
+    var label = optId==='all' ? L('shared') : dtxt(optId);
     var btn = document.createElement('button');
     btn.className = 'owner-btn' + (dashOwner===optId?' active':'');
     btn.textContent = label;
@@ -1640,32 +1889,32 @@ function mTxns(ownerFilter){
 }
 
 window.addRepay = async function(){
-  const raw = prompt('本月信用卡还款金额 (S$)，支持算式');
+  const raw = prompt(L('repay_prompt'));
   if(raw === null) return;
   const amt = evalCalc(raw.trim());
-  if(amt === null || amt <= 0){ toast('金额无效'); return; }
+  if(amt === null || amt <= 0){ toast(L('invalid_amount')); return; }
   let card = '';
   if(cards.length === 1){
     card = cards[0];
   } else if(cards.length > 1){
-    const pick = prompt('哪张卡？输入序号：\n' + cards.map((c,i)=>`${i+1}. ${c}`).join('\n'), '1');
+    const pick = prompt(L('which_card')+'\n' + cards.map((c,i)=>`${i+1}. ${dtxt(c)}`).join('\n'), '1');
     if(pick === null) return;
     const i = parseInt(pick) - 1;
     card = cards[i] || '';
   }
-  const note = card ? '' : (prompt('备注（可选，如：DBS卡）') || '');
+  const note = card ? '' : (prompt(L('repay_note_prompt')) || '');
   const rec = { id:gid(), month:smk(), amount:amt, note:note.trim(), card:card, date:new Date().toISOString(), owner:curOwner, type:'repay' };
   repayTxns.unshift(rec);
   renderDash();
-  toast(`已记录还款 S$ ${amt.toFixed(2)}`);
-  if(isOnline){ try{ await setDoc(doc(db,'repayTxns',rec.id), rec); return; }catch(e){ toast('云端保存失败: '+e.message); } }
+  toast(L('repay_logged')+amt.toFixed(2));
+  if(isOnline){ try{ await setDoc(doc(db,'repayTxns',rec.id), rec); return; }catch(e){ toast(L('save_fail')+e.message); } }
   pendingQueue.push({type:'setRepay', data:rec}); savePending();
 };
 
 window.delRepay = async function(id){
   repayTxns = repayTxns.filter(r=>r.id!==id);
   renderDash();
-  toast('已删除还款记录');
+  toast(L('repay_deleted'));
   if(isOnline){ try{ await deleteDoc(doc(db,'repayTxns',id)); return; }catch(e){} }
   pendingQueue.push({type:'delRepay', id:id}); savePending();
 };
@@ -1680,7 +1929,7 @@ function cardBreakdown(txnList){
   // Group credit spending by card name
   const byCard = {};
   txnList.filter(t=>(t.pay||'cash')==='credit').forEach(t=>{
-    const c = t.card || '信用卡';
+    const c = t.card || L('credit_card');
     byCard[c] = (byCard[c]||0) + t.amount;
   });
   return byCard;
@@ -1714,30 +1963,30 @@ function renderCashflow(mt){
   const netColor = net >= 0 ? '#6BA89A' : '#c97a7a';
   const netStr = (net >= 0 ? '+' : '−') + 'S$ ' + Math.abs(net).toFixed(2);
 
-  let html = `<span style="color:#6BA89A;font-weight:600;">本月现金流入</span> <span style="color:#6BA89A;font-weight:600;float:right;">S$ ${totalIn.toFixed(2)}</span><br>`;
-  html += `本月现金/转账消费 <span style="color:var(--text);float:right;">S$ ${cashSpend.toFixed(2)}</span><br>`;
-  html += `本月信用卡还款 <span style="color:var(--text);float:right;">S$ ${repayTot.toFixed(2)}</span><br>`;
-  html += `<span style="color:var(--gold);font-weight:600;">本月现金流出</span> <span style="color:var(--gold);font-weight:600;float:right;">S$ ${totalOut.toFixed(2)}</span><br>`;
+  let html = `<span style="color:#6BA89A;font-weight:600;">${L('cf_in')}</span> <span style="color:#6BA89A;font-weight:600;float:right;">S$ ${totalIn.toFixed(2)}</span><br>`;
+  html += `${L('cf_cash_spend')} <span style="color:var(--text);float:right;">S$ ${cashSpend.toFixed(2)}</span><br>`;
+  html += `${L('cf_repay')} <span style="color:var(--text);float:right;">S$ ${repayTot.toFixed(2)}</span><br>`;
+  html += `<span style="color:var(--gold);font-weight:600;">${L('cf_out')}</span> <span style="color:var(--gold);font-weight:600;float:right;">S$ ${totalOut.toFixed(2)}</span><br>`;
   html += `<div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px;">
-    <span style="color:${netColor};font-weight:700;">现金流结余</span>
+    <span style="color:${netColor};font-weight:700;">${L('cf_net')}</span>
     <span style="color:${netColor};font-weight:700;float:right;">${netStr}</span></div>`;
 
   if(lastCCTot > 0){
-    html += `<div style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;font-size:12px;color:var(--text-faint);">上月刷卡（预计本月应还）：`;
-    html += Object.entries(lastCC).map(([c,v])=>`${c} S$ ${v.toFixed(2)}`).join(' · ');
+    html += `<div style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;font-size:12px;color:var(--text-faint);">${L('cf_last_cc')}`;
+    html += Object.entries(lastCC).map(([c,v])=>`${dtxt(c)} S$ ${v.toFixed(2)}`).join(' · ');
     html += `</div>`;
   }
   if(thisCCTot > 0){
-    html += `<div style="font-size:12px;color:var(--text-faint);">本月刷卡（预计下月应还）：`;
-    html += Object.entries(thisCC).map(([c,v])=>`${c} S$ ${v.toFixed(2)}`).join(' · ');
+    html += `<div style="font-size:12px;color:var(--text-faint);">${L('cf_this_cc')}`;
+    html += Object.entries(thisCC).map(([c,v])=>`${dtxt(c)} S$ ${v.toFixed(2)}`).join(' · ');
     html += `</div>`;
   }
   if(repays.length){
     html += `<div style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;">`;
     repays.forEach(r=>{
-      const cardLbl = r.card || r.note || '还款';
+      const cardLbl = dtxt(r.card) || dtxt(r.note) || L('repay');
       html += `<div style="font-size:12px;display:flex;justify-content:space-between;align-items:center;">
-        <span>💳 ${cardLbl} · S$ ${r.amount.toFixed(2)}${r.owner?' · '+r.owner:''}</span>
+        <span>💳 ${cardLbl} · S$ ${r.amount.toFixed(2)}${r.owner?' · '+dtxt(r.owner):''}</span>
         <button class="del-btn" style="font-size:11px;" onclick="delRepay('${r.id}')">✕</button>
       </div>`;
     });
@@ -1760,8 +2009,8 @@ function renderDash(){
   const netStr = net >= 0 ? `+S$ ${net.toFixed(2)}` : `-S$ ${Math.abs(net).toFixed(2)}`;
   const netColor = net >= 0 ? '#6BA89A' : '#c97a7a';
   document.getElementById('total-sub').innerHTML = mt.length
-    ? `${mt.length} 笔记录 &nbsp;·&nbsp; 收入 <span style="color:#6BA89A">S$ ${incTot.toFixed(2)}</span> &nbsp;·&nbsp; 结余 <span style="color:${netColor}">${netStr}</span>`
-    : '暂无记录';
+    ? `${mt.length}${L('records')} &nbsp;·&nbsp; ${L('income_word')} <span style="color:#6BA89A">S$ ${incTot.toFixed(2)}</span> &nbsp;·&nbsp; ${L('net_word')} <span style="color:${netColor}">${netStr}</span>`
+    : L('no_records');
   updatePendingUI();
 
   const tm={};
@@ -1781,18 +2030,18 @@ function renderDash(){
     let subHtml='';
     if(hasSubs){
       const ents=Object.entries(cat.subs).filter(([k])=>k!=='__d').sort((a,b)=>b[1]-a[1]);
-      if(cat.subs['__d'])ents.push(['直接记入',cat.subs['__d']]);
-      subHtml=ents.map(([k,v])=>`<div class="sub-row"><span class="sub-name">${k}</span><span class="sub-amt">S$ ${v.toFixed(2)}</span></div>`).join('');
+      if(cat.subs['__d'])ents.push([L('direct'),cat.subs['__d']]);
+      subHtml=ents.map(([k,v])=>`<div class="sub-row"><span class="sub-name">${subLbl(k)}</span><span class="sub-amt">S$ ${v.toFixed(2)}</span></div>`).join('');
     }
     const row=document.createElement('div');row.className='cat-row';row.style.animationDelay=(i*.04)+'s';
-    row.title='点击查看明细';
+    row.title=L('click_detail');
     row.dataset.catid=cat.id;
     row.innerHTML=`
       <div class="cat-row-top">
         <div class="cat-info">
           <span class="cat-emoji">${cat.emoji}</span>
-          <span class="cat-name">${cat.label}</span>
-          ${i===0&&cat.total>0?'<span class="cat-badge">最大开支</span>':''}
+          <span class="cat-name">${catLbl(cat)}</span>
+          ${i===0&&cat.total>0?'<span class="cat-badge">'+L('biggest')+'</span>':''}
           ${hasSubs?`<span class="expand-hint" onclick="this.closest('.cat-row').classList.toggle('expanded')">▾</span>`:''}
         </div>
         <div class="cat-amounts">
@@ -1818,7 +2067,7 @@ function renderDash(){
     const feeAmt = cat.subs[feeSub] || 0;
     if(feeAmt > 0){
       totalFee += feeAmt;
-      feeLines.push({label: cat.emoji+' '+cat.label, amt: feeAmt});
+      feeLines.push({label: cat.emoji+' '+catLbl(cat), amt: feeAmt});
     }
   });
   const feeSection = document.getElementById('fee-summary');
@@ -1852,7 +2101,7 @@ function renderDash(){
     ang+=sw;
   });
   svg.innerHTML=paths;
-  document.getElementById('legend-items').innerHTML=active.map(c=>`<div class="legend-item"><span class="legend-dot" style="background:${c.color}"></span><span class="legend-lbl">${c.emoji} ${c.label}</span></div>`).join('');
+  document.getElementById('legend-items').innerHTML=active.map(c=>`<div class="legend-item"><span class="legend-dot" style="background:${c.color}"></span><span class="legend-lbl">${c.emoji} ${catLbl(c)}</span></div>`).join('');
 }
 
 // ── ENTRY ──
@@ -1861,7 +2110,7 @@ function buildEntry(){
   const grid=document.getElementById('cat-grid');grid.innerHTML='';
   cats.forEach(c=>{
     const b=document.createElement('button');b.className='cat-chip';b.dataset.id=c.id;
-    b.textContent=`${c.emoji} ${c.label}`;b.onclick=()=>selCatFn(c.id);
+    b.textContent=`${c.emoji} ${catLbl(c)}`;b.onclick=()=>selCatFn(c.id);
     grid.appendChild(b);
   });
   document.getElementById('sub-area').style.display='none';
@@ -1869,7 +2118,7 @@ function buildEntry(){
   pendingMyrFee=null;
   document.getElementById('amt-input').value=''; var _r=document.getElementById('amt-result'); if(_r) _r.textContent='';
   document.getElementById('note-input').value='';
-  const sb=document.getElementById('submit-btn');sb.disabled=true;sb.textContent='＋ 记入';
+  const sb=document.getElementById('submit-btn');sb.disabled=true;sb.textContent=L('submit_add');
   buildOwnerSwitch('entry-owner-switch', curOwner, function(o){ setCurOwner(o); });
   buildPaySwitch();
 }
@@ -1878,11 +2127,11 @@ function buildPaySwitch(){
   var el = document.getElementById('entry-pay-switch');
   if(!el) return;
   el.innerHTML = '';
-  var opts = [{pay:'cash',card:'',label:'💵 现金/转账'}];
+  var opts = [{pay:'cash',card:'',label:L('pay_cash_transfer')}];
   if(cards.length){
-    cards.forEach(function(c){ opts.push({pay:'credit',card:c,label:'💳 '+c}); });
+    cards.forEach(function(c){ opts.push({pay:'credit',card:c,label:'💳 '+dtxt(c)}); });
   } else {
-    opts.push({pay:'credit',card:'',label:'💳 信用卡'});
+    opts.push({pay:'credit',card:'',label:L('pay_credit_generic')});
   }
   opts.forEach(function(opt){
     var isActive = selPayType===opt.pay && (opt.pay==='cash' || selCard===opt.card);
@@ -1914,10 +2163,10 @@ function selCatFn(catId){
   if(cat.sub&&cat.sub.length>0){
     sa.style.display='block';sg.innerHTML='';
     const all=document.createElement('button');
-    all.className='sub-chip selected';all.textContent='不分';all.dataset.sub='';
+    all.className='sub-chip selected';all.textContent=L('no_split');all.dataset.sub='';
     all.onclick=()=>selSubFn('');sg.appendChild(all);
     cat.sub.forEach(s=>{
-      const b=document.createElement('button');b.className='sub-chip';b.textContent=s;b.dataset.sub=s;
+      const b=document.createElement('button');b.className='sub-chip';b.textContent=subLbl(s);b.dataset.sub=s;
       b.onclick=()=>selSubFn(s);sg.appendChild(b);
     });
   } else {sa.style.display='none';}
@@ -1934,7 +2183,9 @@ function selSubFn(sub){
 function updBtn(){
   const amt=getCalcAmount('amt-input');
   document.getElementById('submit-btn').disabled=!(selCat&&amt>0);
-  if(selCat)document.getElementById('submit-btn').textContent=`＋ 记入 ${curY}年${MONTHS[curM-1]}`;
+  if(selCat)document.getElementById('submit-btn').textContent = lang==='en'
+    ? `${L('submit_add')} · ${MONS()[curM-1]} ${curY}`
+    : `${L('submit_add')} ${curY}年${MONS()[curM-1]}`;
 }
 document.getElementById('amt-input').addEventListener('input',updBtn);
 document.getElementById('amt-input').addEventListener('keydown',e=>{if(e.key==='Enter'){document.getElementById('note-input').focus();}});
@@ -1953,8 +2204,8 @@ window.addTxn=async function(){
   // Auto-create fee txn if MYR calculator was used
   let feeTxn = null;
   if(pendingMyrFee){
-    const feeMethodNames={amaze:'汇率溢价',tng:'手续费',cash:''};
-    const feeLabel = feeMethodNames[pendingMyrFee.method]||'手续费';
+    const feeMethodNames={amaze:L('fee_amaze'),tng:L('fee_tng'),cash:''};
+    const feeLabel = feeMethodNames[pendingMyrFee.method]||L('fee_word');
     // Find or create 手续费/汇率 sub in current cat
     const cat = gc(selCat);
     const feeSub = '手续费/汇率';
@@ -1982,7 +2233,7 @@ window.addTxn=async function(){
 
   renderDash();renderHist();
   buildEntry();
-  toast(feeTxn ? `已记入 S$ ${amt.toFixed(2)} + 手续费 S$ ${feeTxn.amount.toFixed(2)}` : `已记入 S$ ${amt.toFixed(2)}`);
+  toast(feeTxn ? `${L('recorded')}${amt.toFixed(2)} + ${L('fee_word')} S$ ${feeTxn.amount.toFixed(2)}` : `${L('recorded')}${amt.toFixed(2)}`);
   await fsSetTxn(txn);
   if(feeTxn) await fsSetTxn(feeTxn);
 };
@@ -2000,7 +2251,7 @@ function buildOwnerSwitch3(elId, selected, onSelect){
   var el=document.getElementById(elId);
   if(!el) return;
   el.innerHTML='';
-  [{id:'all',label:'全部'}].concat(owners.map(function(o){return{id:o,label:o};})).forEach(function(opt){
+  [{id:'all',label:L('all')}].concat(owners.map(function(o){return{id:o,label:dtxt(o)};})).forEach(function(opt){
     var btn=document.createElement('button');
     btn.className='owner-btn'+(selected===opt.id?' active':'');
     btn.textContent=opt.label;
@@ -2042,12 +2293,12 @@ window.renderHist=function(){
   const filterWrap = document.getElementById('filter-bar-wrap');
   if(!isIncome && historyFilter){
     const fCat = gc(historyFilter);
-    let chipLabel = fCat ? `${fCat.emoji} ${fCat.label}` : historyFilter;
-    if(historySubFilter) chipLabel += ` · ${historySubFilter}`;
+    let chipLabel = fCat ? `${fCat.emoji} ${catLbl(fCat)}` : historyFilter;
+    if(historySubFilter) chipLabel += ` · ${subLbl(historySubFilter)}`;
     document.getElementById('filter-chip-label').textContent = chipLabel;
     filterWrap.style.display = 'block';
     mt = mt.filter(t => t.catId === historyFilter);
-    if(historySubFilter) mt = mt.filter(t => (t.sub||'直接记入') === historySubFilter || t.sub === historySubFilter);
+    if(historySubFilter) mt = mt.filter(t => (t.sub||L('direct')) === historySubFilter || t.sub === historySubFilter);
   } else if(!isIncome) {
     filterWrap.style.display = 'none';
   }
@@ -2057,7 +2308,7 @@ window.renderHist=function(){
     mt = mt.filter(t=>{
       const cat = isIncome ? incomeCats.find(c=>c.id===t.catId) : gc(t.catId);
       const amtStr = t.amount.toFixed(2);
-      const catLabel = (cat?.label||'').toLowerCase();
+      const catLabel = ((cat?.label||'')+' '+(cat?catLbl(cat):'')).toLowerCase();
       const note = (t.note||'').toLowerCase();
       const emoji = cat?.emoji||'';
       return amtStr.includes(query) || catLabel.includes(query) || note.includes(query) || emoji.includes(query);
@@ -2066,18 +2317,18 @@ window.renderHist=function(){
 
   if(!isIncome) updateSubNav();
   const list=document.getElementById('history-list');
-  const emptyMsg = query ? '没有找到匹配的记录' : (isIncome ? '本月暂无收入记录' : (historySubFilter?'该细分本月暂无记录':historyFilter?'该类别本月暂无记录':'本月暂无记录'));
+  const emptyMsg = query ? L('no_match') : (isIncome ? L('no_income_month') : (historySubFilter?L('no_sub_records'):historyFilter?L('no_cat_records'):L('no_records_month')));
   if(!mt.length){list.innerHTML='<div class="empty-state">'+emptyMsg+'</div>';return;}
   list.innerHTML='';
   mt.forEach((t,i)=>{
     const cat = isIncome ? incomeCats.find(c=>c.id===t.catId) : gc(t.catId);
     const d=new Date(t.date);
-    const ds=`${d.getDate()} ${MONTHS[d.getMonth()]}  ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const ds=`${d.getDate()} ${MONS()[d.getMonth()]}  ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     const isPending=pendingQueue.some(op=>op.type===(isIncome?'setIncomeTxn':'setTxn')&&op.data.id===t.id);
     const row=document.createElement('div');row.className='txn-row';row.style.animationDelay=(i*.03)+'s';
     const amtColor = isIncome ? 'color:#6BA89A;' : '';
     const amtPrefix = isIncome ? '+' : '';
-    const editBtn = `<button class="del-btn" style="color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;" onclick="openEditTxn('${t.id}',${isIncome})">编辑</button>`;
+    const editBtn = `<button class="del-btn" style="color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;" onclick="openEditTxn('${t.id}',${isIncome})">${L('edit')}</button>`;
     const delFn = isIncome ? `delIncomeTxn('${t.id}')` : `delTxnFn('${t.id}')`;
     const ownerName = t.owner || owners[0];
     const otherOwner = ownerName === owners[0] ? owners[1] : owners[0];
@@ -2085,17 +2336,17 @@ window.renderHist=function(){
     row.innerHTML=`
       <div class="txn-dot" style="background:${cat?.color||'#888'}"></div>
       <div class="txn-info">
-        <div class="txn-cat">${cat?.emoji||''} ${cat?.label||t.catId}${t.sub?' · '+t.sub:''}</div>
-        ${t.note?`<div class="txn-note">${t.note}</div>`:''}
-        <div class="txn-date">${ds}${t.owner && owners.length>1 ? " · "+t.owner : ""}${!isIncome && (t.pay||"cash")==="credit" ? " · 💳"+(t.card||"") : ""}</div>
-        ${isPending?'<div class="txn-pending">⏳ 待同步</div>':''}
+        <div class="txn-cat">${cat?.emoji||''} ${cat?catLbl(cat):t.catId}${t.sub?' · '+subLbl(t.sub):''}</div>
+        ${t.note?`<div class="txn-note">${dtxt(t.note)}</div>`:''}
+        <div class="txn-date">${ds}${t.owner && owners.length>1 ? " · "+dtxt(t.owner) : ""}${!isIncome && (t.pay||"cash")==="credit" ? " · 💳"+dtxt(t.card||"") : ""}</div>
+        ${isPending?'<div class="txn-pending">⏳ '+L('pending')+'</div>':''}
       </div>
       <div class="txn-right">
         <div class="txn-amt" style="${amtColor}">${amtPrefix}S$ ${t.amount.toFixed(2)}</div>
         <div style="display:flex;gap:6px;">
-          <button class="del-btn" style="color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;" onclick="${switchOwnerFn}" title="切换记账人">${ownerName}</button>
+          <button class="del-btn" style="color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;" onclick="${switchOwnerFn}" title="${L('switch_owner')}">${dtxt(ownerName)}</button>
           ${editBtn}
-          <button class="del-btn" onclick="${delFn}">✕ 删除</button>
+          <button class="del-btn" onclick="${delFn}">${L('del_x')}</button>
         </div>
       </div>`;
     list.appendChild(row);
@@ -2109,7 +2360,7 @@ window.delTxnFn=async function(id){
   // Also find if this is itself a fee txn linked to something
   txns=txns.filter(t=>t.id!==id && t.id!==feeId);
   renderHist();renderDash();
-  toast(feeId ? '已删除（含手续费）' : '已删除');
+  toast(feeId ? L('deleted_with_fee') : L('deleted'));
   await fsDelTxn(id);
   if(feeId) await fsDelTxn(feeId);
 };
@@ -2117,8 +2368,8 @@ window.delTxnFn=async function(id){
 // ── SETTINGS ──
 function renderSettings(keepOpenId){
   // Populate owner name inputs
-  var o1=document.getElementById('owner1-input'); if(o1) o1.value=owners[0];
-  var o2=document.getElementById('owner2-input'); if(o2) o2.value=owners[1];
+  var o1=document.getElementById('owner1-input'); if(o1) o1.value=dtxt(owners[0]);
+  var o2=document.getElementById('owner2-input'); if(o2) o2.value=dtxt(owners[1]);
   renderCardSettings();
 
   const list=document.getElementById('settings-list');
@@ -2130,19 +2381,19 @@ function renderSettings(keepOpenId){
       <div class="settings-cat-header" onclick="toggleSCat(this)">
         <span class="drag-handle" onmousedown="makeDraggable(event,'${cat.id}',false)" ontouchstart="makeDraggableTouch(event,'${cat.id}',false)">⠿</span>
         <span class="settings-cat-emoji">${cat.emoji}</span>
-        <span class="settings-cat-name">${cat.label}${cat.myr?' <span style="font-size:10px;color:#6BA89A;background:rgba(107,168,154,0.15);border-radius:8px;padding:1px 6px;">MYR</span>':''}</span>
+        <span class="settings-cat-name">${catLbl(cat)}${cat.myr?' <span style="font-size:10px;color:#6BA89A;background:rgba(107,168,154,0.15);border-radius:8px;padding:1px 6px;">MYR</span>':''}</span>
         <div class="settings-cat-actions">
           <span class="color-swatch" style="background:${cat.color}"></span>
-          <button class="icon-btn" onclick="event.stopPropagation();openEdit('${cat.id}')">编辑</button>
-          <button class="icon-btn danger" onclick="event.stopPropagation();delCat('${cat.id}')">删除</button>
+          <button class="icon-btn" onclick="event.stopPropagation();openEdit('${cat.id}')">${L('edit')}</button>
+          <button class="icon-btn danger" onclick="event.stopPropagation();delCat('${cat.id}')">${L('del')}</button>
         </div>
       </div>
       <div class="settings-cat-body">
         <div class="sub-tags" id="stags-${cat.id}"></div>
         <div class="add-sub-row">
-          <input class="add-sub-input" id="sinput-${cat.id}" placeholder="输入细分名称，按 Enter 添加"
+          <input class="add-sub-input" id="sinput-${cat.id}" placeholder="${L('ph_add_sub')}"
             onkeydown="if(event.key==='Enter')addSub('${cat.id}')">
-          <button class="add-sub-btn" onclick="addSub('${cat.id}')">添加</button>
+          <button class="add-sub-btn" onclick="addSub('${cat.id}')">${L('add')}</button>
         </div>
       </div>`;
     list.appendChild(el);
@@ -2162,19 +2413,19 @@ function renderSettings(keepOpenId){
       <div class="settings-cat-header" onclick="toggleSCat(this)">
         <span class="drag-handle" onmousedown="makeDraggable(event,'${cat.id}',true)" ontouchstart="makeDraggableTouch(event,'${cat.id}',true)">⠿</span>
         <span class="settings-cat-emoji">${cat.emoji}</span>
-        <span class="settings-cat-name">${cat.label}</span>
+        <span class="settings-cat-name">${catLbl(cat)}</span>
         <div class="settings-cat-actions">
           <span class="color-swatch" style="background:${cat.color}"></span>
-          <button class="icon-btn" onclick="event.stopPropagation();openEditIncomeCat('${cat.id}')">编辑</button>
-          <button class="icon-btn danger" onclick="event.stopPropagation();delIncomeCat('${cat.id}')">删除</button>
+          <button class="icon-btn" onclick="event.stopPropagation();openEditIncomeCat('${cat.id}')">${L('edit')}</button>
+          <button class="icon-btn danger" onclick="event.stopPropagation();delIncomeCat('${cat.id}')">${L('del')}</button>
         </div>
       </div>
       <div class="settings-cat-body">
         <div class="sub-tags" id="istags-${cat.id}"></div>
         <div class="add-sub-row">
-          <input class="add-sub-input" id="isinput-${cat.id}" placeholder="输入细分名称，按 Enter 添加"
+          <input class="add-sub-input" id="isinput-${cat.id}" placeholder="${L('ph_add_sub')}"
             onkeydown="if(event.key==='Enter')addIncomeSub('${cat.id}')">
-          <button class="add-sub-btn" onclick="addIncomeSub('${cat.id}')">添加</button>
+          <button class="add-sub-btn" onclick="addIncomeSub('${cat.id}')">${L('add')}</button>
         </div>
       </div>`;
     ilist.appendChild(el);
@@ -2186,10 +2437,10 @@ window.toggleSCat=function(h){h.parentElement.classList.toggle('open');};
 
 function renderSubTags(catId){
   const cat=gc(catId);const c=document.getElementById('stags-'+catId);if(!c)return;
-  if(!cat||!cat.sub||cat.sub.length===0){c.innerHTML='<span class="no-sub">暂无细分</span>';return;}
+  if(!cat||!cat.sub||cat.sub.length===0){c.innerHTML='<span class="no-sub">'+L('no_subs')+'</span>';return;}
   c.innerHTML=cat.sub.map((s,i)=>`
     <div class="sub-tag">
-      <span class="sub-tag-label" onclick="editSub('${catId}',${i})" style="cursor:pointer;">${s}</span>
+      <span class="sub-tag-label" onclick="editSub('${catId}',${i})" style="cursor:pointer;">${subLbl(s)}</span>
       <button class="sub-tag-del" onclick="delSub('${catId}',${i})">×</button>
     </div>`).join('');
 }
@@ -2197,26 +2448,26 @@ function renderSubTags(catId){
 window.editSub = async function(catId, idx){
   const cat = gc(catId); if(!cat) return;
   const oldVal = cat.sub[idx];
-  const newVal = prompt('编辑细分名称', oldVal);
+  const newVal = prompt(L('edit_sub_prompt'), subLbl(oldVal));
   if(newVal === null) return; // cancelled
   const trimmed = newVal.trim();
   if(!trimmed) return;
   if(trimmed === oldVal) return;
-  if(cat.sub.includes(trimmed)){ toast('该细分已存在'); return; }
+  if(cat.sub.includes(trimmed)){ toast(L('sub_exists')); return; }
   cat.sub[idx] = trimmed;
   renderSubTags(catId);
   renderSettings(catId);
-  toast(`已更新为「${trimmed}」`);
-  try{ await setDoc(doc(db,'cats',catId), cat); }catch(e){ toast('云端保存失败: '+e.message); }
+  toast(L('updated_to_a')+trimmed+L('updated_to_b'));
+  try{ await setDoc(doc(db,'cats',catId), cat); }catch(e){ toast(L('save_fail')+e.message); }
 };
 
 window.addSub=async function(catId){
   const inp=document.getElementById('sinput-'+catId);
   const val=inp.value.trim();if(!val)return;
   const cat=gc(catId);if(!cat.sub)cat.sub=[];
-  if(cat.sub.includes(val)){toast('细分已存在');return;}
+  if(cat.sub.includes(val)){toast(L('sub_exists'));return;}
   cat.sub.push(val);inp.value='';
-  renderSubTags(catId);toast(`已添加「${val}」`);
+  renderSubTags(catId);toast(L('added_a')+val+L('added_b'));
   renderSettings(catId);
   setTimeout(()=>{
     const newInp=document.getElementById('sinput-'+catId);
@@ -2228,7 +2479,7 @@ window.addSub=async function(catId){
 window.delSub=async function(catId,idx){
   const cat=gc(catId);if(!cat)return;
   cat.sub.splice(idx,1);
-  renderSubTags(catId);toast('已删除细分');
+  renderSubTags(catId);toast(L('sub_deleted'));
   renderSettings(catId);
   await fsSetCat(cat);
 };
@@ -2236,10 +2487,10 @@ window.delSub=async function(catId,idx){
 window.delCat=async function(catId){
   const cat=gc(catId);if(!cat)return;
   const has=txns.some(t=>t.catId===catId);
-  const msg=has?`「${cat.label}」有已有记录，删除后记录保留但无法显示类别名。确认删除？`:`确认删除「${cat.label}」？`;
+  const msg=has?(L('del_cat_has_a')+catLbl(cat)+L('del_cat_has_b')):(L('del_cat_a')+catLbl(cat)+L('del_cat_b'));
   if(!confirm(msg))return;
   cats=cats.filter(c=>c.id!==catId);
-  renderSettings();toast(`已删除「${cat.label}」`);
+  renderSettings();toast(L('deleted_a')+catLbl(cat)+L('deleted_b'));
   await fsDelCat(catId);
 };
 
@@ -2321,11 +2572,11 @@ function renderIncomeSubTags(catId){
   const el = document.getElementById('istags-'+catId);
   if(!el) return;
   if(!cat||!cat.sub||cat.sub.length===0){
-    el.innerHTML='<span class="no-sub">暂无细分</span>';return;
+    el.innerHTML='<span class="no-sub">'+L('no_subs')+'</span>';return;
   }
   el.innerHTML = cat.sub.map((s,i)=>`
     <div class="sub-tag">
-      <span class="sub-tag-label" onclick="editIncomeSub('${catId}',${i})" style="cursor:pointer;">${s}</span>
+      <span class="sub-tag-label" onclick="editIncomeSub('${catId}',${i})" style="cursor:pointer;">${subLbl(s)}</span>
       <button class="sub-tag-del" onclick="delIncomeSub('${catId}',${i})">×</button>
     </div>`).join('');
 }
@@ -2333,16 +2584,16 @@ function renderIncomeSubTags(catId){
 window.editIncomeSub = async function(catId, idx){
   const cat = incomeCats.find(c=>c.id===catId); if(!cat) return;
   const oldVal = cat.sub[idx];
-  const newVal = prompt('编辑细分名称', oldVal);
+  const newVal = prompt(L('edit_sub_prompt'), subLbl(oldVal));
   if(newVal === null) return;
   const trimmed = newVal.trim();
   if(!trimmed) return;
   if(trimmed === oldVal) return;
-  if(cat.sub.includes(trimmed)){ toast('该细分已存在'); return; }
+  if(cat.sub.includes(trimmed)){ toast(L('sub_exists')); return; }
   cat.sub[idx] = trimmed;
   renderIncomeSubTags(catId);
   renderSettings(catId);
-  toast(`已更新为「${trimmed}」`);
+  toast(L('updated_to_a')+trimmed+L('updated_to_b'));
   try{ await setDoc(doc(db,'incomeCats',catId), cat); }catch(e){}
 };
 
@@ -2351,9 +2602,9 @@ window.addIncomeSub = async function(catId){
   const val = inp.value.trim(); if(!val) return;
   const cat = incomeCats.find(c=>c.id===catId); if(!cat) return;
   if(!cat.sub) cat.sub=[];
-  if(cat.sub.includes(val)){toast('细分已存在');return;}
+  if(cat.sub.includes(val)){toast(L('sub_exists'));return;}
   cat.sub.push(val); inp.value='';
-  renderIncomeSubTags(catId); toast(`已添加「${val}」`);
+  renderIncomeSubTags(catId); toast(L('added_a')+val+L('added_b'));
   renderSettings(catId);
   setTimeout(()=>{const ni=document.getElementById('isinput-'+catId);if(ni)ni.focus();},50);
   try{ await setDoc(doc(db,'incomeCats',catId), cat); }catch(e){}
@@ -2362,16 +2613,16 @@ window.addIncomeSub = async function(catId){
 window.delIncomeSub = async function(catId, idx){
   const cat = incomeCats.find(c=>c.id===catId); if(!cat) return;
   cat.sub.splice(idx,1);
-  renderIncomeSubTags(catId); toast('已删除细分');
+  renderIncomeSubTags(catId); toast(L('sub_deleted'));
   renderSettings(catId);
   try{ await setDoc(doc(db,'incomeCats',catId), cat); }catch(e){}
 };
 
 window.delIncomeCat = async function(catId){
   const cat = incomeCats.find(c=>c.id===catId); if(!cat) return;
-  if(!confirm(`确认删除「${cat.label}」？`)) return;
+  if(!confirm(L('del_cat_a')+catLbl(cat)+L('del_cat_b'))) return;
   incomeCats = incomeCats.filter(c=>c.id!==catId);
-  renderSettings(); toast(`已删除「${cat.label}」`);
+  renderSettings(); toast(L('deleted_a')+catLbl(cat)+L('deleted_b'));
   try{ await deleteDoc(doc(db,'incomeCats',catId)); }catch(e){}
 };
 
@@ -2380,7 +2631,7 @@ let incomeCatModalMode = 'add', incomeCatModalEditId = null;
 window.openAddIncomeCatModal = function(){
   modalTarget='income';modalMode='add';modalEditId=null;
   incomeCatModalMode = 'add'; incomeCatModalEditId = null;
-  document.getElementById('modal-title').textContent = '新增收入类别';
+  document.getElementById('modal-title').textContent = L('modal_new_income_cat');
   document.getElementById('modal-emoji').value = '';
   document.getElementById('modal-name').value = '';
   // Hide MYR toggle for income cats
@@ -2397,9 +2648,9 @@ window.openEditIncomeCat = function(catId){
   const cat = incomeCats.find(c=>c.id===catId); if(!cat) return;
   modalTarget='income';modalMode='edit';modalEditId=catId;
   incomeCatModalMode = 'edit'; incomeCatModalEditId = catId;
-  document.getElementById('modal-title').textContent = '编辑收入类别';
+  document.getElementById('modal-title').textContent = L('modal_edit_income_cat');
   document.getElementById('modal-emoji').value = cat.emoji;
-  document.getElementById('modal-name').value = cat.label;
+  document.getElementById('modal-name').value = catLbl(cat);
   const myrField = document.getElementById('modal-myr').closest('.modal-field');
   if(myrField) myrField.style.display = 'none';
   buildColorGrid(PALETTE.includes(cat.color)?cat.color:PALETTE[0]);
@@ -2420,16 +2671,16 @@ function buildColorGrid(sel){
     // dim used colors with an overlay indicator
     if(isUsed){
       el.style.opacity='0.35';
-      el.title=c+' (已使用)';
+      el.title=c+L('color_used');
     }
-    el.onclick=()=>{modalColor=c;document.querySelectorAll('.color-opt').forEach(o=>o.classList.toggle('selected',o.title===c||o.title===c+' (已使用)'));};
+    el.onclick=()=>{modalColor=c;document.querySelectorAll('.color-opt').forEach(o=>o.classList.toggle('selected',o.title===c||o.title===c+L('color_used')));};
     g.appendChild(el);
   });
   modalColor=sel;
 }
 window.openAddCatModal=function(){
   modalTarget='expense';modalMode='add';modalEditId=null;
-  document.getElementById('modal-title').textContent='新增类别';
+  document.getElementById('modal-title').textContent=L('modal_new_cat');
   document.getElementById('modal-emoji').value='';
   document.getElementById('modal-name').value='';
   // Auto-pick first unused color
@@ -2443,9 +2694,9 @@ window.openAddCatModal=function(){
 window.openEdit=function(catId){
   const cat=gc(catId);if(!cat)return;
   modalTarget='expense';modalMode='edit';modalEditId=catId;
-  document.getElementById('modal-title').textContent='编辑类别';
+  document.getElementById('modal-title').textContent=L('modal_edit_cat');
   document.getElementById('modal-emoji').value=cat.emoji;
-  document.getElementById('modal-name').value=cat.label;
+  document.getElementById('modal-name').value=catLbl(cat);
   buildColorGrid(PALETTE.includes(cat.color)?cat.color:PALETTE[0]);
   document.getElementById('modal-myr').checked = cat.myr || false;
   document.getElementById('modal-overlay').classList.add('open');
@@ -2460,19 +2711,19 @@ window.confirmModal=async function(){
   const emoji=document.getElementById('modal-emoji').value.trim()||'📦';
   const name=document.getElementById('modal-name').value.trim();
   const myr=document.getElementById('modal-myr').checked;
-  if(!name){toast('请输入名称');return;}
+  if(!name){toast(L('name_required'));return;}
 
   if(modalTarget==='income'){
     // Income category
     if(modalMode==='add'){
       const newCat={id:gid(),label:name,emoji,color:modalColor,sub:[],order:incomeCats.length};
       incomeCats.push(newCat);
-      closeModal();renderSettings();buildIncomeEntry();toast(`已添加「${name}」`);
+      closeModal();renderSettings();buildIncomeEntry();toast(L('added_a')+name+L('added_b'));
       try{ await setDoc(doc(db,'incomeCats',newCat.id), newCat); }catch(e){ pendingQueue.push({type:'setIncomeCat',data:newCat}); savePending(); }
     } else {
       const cat=incomeCats.find(c=>c.id===modalEditId);
-      if(cat){cat.label=name;cat.emoji=emoji;cat.color=modalColor;}
-      closeModal();renderSettings();buildIncomeEntry();toast(`已更新「${name}」`);
+      if(cat){cat.label=name;cat.emoji=emoji;cat.color=modalColor;cat.i18nOff=true;}
+      closeModal();renderSettings();buildIncomeEntry();toast(L('updated_a')+name+L('updated_b'));
       try{ await setDoc(doc(db,'incomeCats',cat.id), cat); }catch(e){}
     }
     return;
@@ -2482,12 +2733,12 @@ window.confirmModal=async function(){
   if(modalMode==='add'){
     const newCat={id:gid(),label:name,emoji,color:modalColor,sub:[],order:cats.length,myr:myr};
     cats.push(newCat);
-    closeModal();renderSettings();toast(`已添加「${name}」`);
+    closeModal();renderSettings();toast(L('added_a')+name+L('added_b'));
     await fsSetCat(newCat);
   } else {
     const cat=gc(modalEditId);
-    if(cat){cat.label=name;cat.emoji=emoji;cat.color=modalColor;cat.myr=myr;}
-    closeModal();renderSettings();toast(`已更新「${name}」`);
+    if(cat){cat.label=name;cat.emoji=emoji;cat.color=modalColor;cat.myr=myr;cat.i18nOff=true;}
+    closeModal();renderSettings();toast(L('updated_a')+name+L('updated_b'));
     await fsSetCat(cat);
   }
 };
@@ -2518,10 +2769,10 @@ async function fetchMyrRate() {
       myrRate = rate;
       const el = document.getElementById('myr-rate-display');
       const ageH = ((Date.now()-ts)/3600000).toFixed(0);
-      if (el) el.textContent = `MYR ${myrRate.toFixed(4)} (${ageH}h 前)`;
+      if (el) el.textContent = `MYR ${myrRate.toFixed(4)} (${ageH}${L('hours_ago')})`;
     } else {
       const el = document.getElementById('myr-rate-display');
-      if (el) el.textContent = '无法获取，请手动输入';
+      if (el) el.textContent = L('rate_fail');
     }
   }
 }
@@ -2591,8 +2842,8 @@ window.calcMyr = function() {
   const feeLbl = document.getElementById('myr-fee-lbl');
   if (feeRate > 0) {
     feeRow.style.display = 'flex';
-    const methodNames = {amaze:'汇率溢价 (0.4%)', tng:'手续费 (2.6%)', cash:'无手续费'};
-    feeLbl.textContent = methodNames[selPayMethod] || '手续费';
+    const methodNames = {amaze:L('fee_amaze_full'), tng:L('fee_tng_full'), cash:L('fee_none')};
+    feeLbl.textContent = methodNames[selPayMethod] || L('fee_word');
     document.getElementById('myr-fee-sgd').textContent = `+S$ ${feeSgd.toFixed(2)}`;
   } else {
     feeRow.style.display = 'none';
@@ -2611,7 +2862,7 @@ window.applyMyr = function() {
   const baseSgd = rm / myrRate;
   const feeSgd = baseSgd * feeRate;
   const totalSgd = baseSgd + feeSgd;
-  const methodLabel = {amaze:'Amaze', tng:'TNG/DBS', cash:'现金'}[selPayMethod];
+  const methodLabel = {amaze:'Amaze', tng:'TNG/DBS', cash:L('cash_word')}[selPayMethod];
 
   // Fill main amount input with BASE amount only (excluding fee)
   document.getElementById('amt-input').value = baseSgd.toFixed(2);
@@ -2637,7 +2888,7 @@ window.applyMyr = function() {
     document.getElementById('note-input').value = `RM ${rm} @ ${myrRate.toFixed(4)} (${methodLabel})`;
   }
   updBtn();
-  toast(`已填入 S$ ${baseSgd.toFixed(2)}${feeRate>0?' + S$ '+feeSgd.toFixed(2)+' 手续费':''}` );
+  toast(`${L('filled_in')}${baseSgd.toFixed(2)}${feeRate>0?' + S$ '+feeSgd.toFixed(2)+' '+L('fee_word'):''}` );
 };
 
 // ── CAT DETAIL MODAL ──
@@ -2657,7 +2908,7 @@ window.openCatDetail = function(catId) {
   // Group by sub
   const subMap = {};
   catTxns.forEach(t => {
-    const k = t.sub || '直接记入';
+    const k = t.sub || L('direct');
     subMap[k] = (subMap[k]||0) + t.amount;
   });
 
@@ -2665,8 +2916,8 @@ window.openCatDetail = function(catId) {
   catDetailSortedSubs = sorted.map(([sub]) => sub);
 
   document.getElementById('cd-emoji').textContent = cat.emoji;
-  document.getElementById('cd-name').textContent = cat.label;
-  document.getElementById('cd-total').textContent = `本月合计 S$ ${total.toFixed(2)}`;
+  document.getElementById('cd-name').textContent = catLbl(cat);
+  document.getElementById('cd-total').textContent = `${L('month_total')}${total.toFixed(2)}`;
 
   // Generate sub colors (variations of cat color)
   const baseHue = cat.color;
@@ -2680,7 +2931,7 @@ window.openCatDetail = function(catId) {
       <div class="cat-detail-row" onclick="catDetailGoSub('${sub.replace(/'/g,"\\'")}')">
         <span class="cat-detail-rank">${i+1}</span>
         <div class="cat-detail-sub-info">
-          <div class="cat-detail-sub-name">${sub}</div>
+          <div class="cat-detail-sub-name">${subLbl(sub)}</div>
           <div class="cat-detail-bar-wrap">
             <div class="cat-detail-bar" style="width:${pct}%;background:${col};"></div>
           </div>
@@ -2712,7 +2963,7 @@ window.openCatDetail = function(catId) {
       angle += sweep;
     });
     // Center text
-    paths += `<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="11" fill="rgba(232,224,208,0.4)" font-family="sans-serif">合计</text>`;
+    paths += `<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="11" fill="rgba(232,224,208,0.4)" font-family="sans-serif">${L('total_word')}</text>`;
     paths += `<text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="13" fill="#E8E0D0" font-family="serif">S$ ${total.toFixed(2)}</text>`;
     svg.innerHTML = paths;
     svg.style.display = 'block';
@@ -2722,7 +2973,7 @@ window.openCatDetail = function(catId) {
       const col = subColors[i % subColors.length];
       return `<div style="display:flex;align-items:center;gap:5px;cursor:pointer;" onclick="catDetailGoSub('${sub.replace(/'/g,"\\'")}')">
         <span style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0;display:inline-block;"></span>
-        <span style="font-size:12px;color:var(--text-dim);">${sub}</span>
+        <span style="font-size:12px;color:var(--text-dim);">${subLbl(sub)}</span>
       </div>`;
     }).join('');
   } else {
@@ -2772,7 +3023,7 @@ function updateSubNav() {
     const idx = catDetailSortedSubs.indexOf(historySubFilter);
     const cat = gc(historyFilter);
     document.getElementById('sub-nav-current').textContent =
-      `${cat?.emoji||''} ${cat?.label||''} · ${historySubFilter} (${idx+1}/${catDetailSortedSubs.length})`;
+      `${cat?.emoji||''} ${cat?catLbl(cat):''} · ${subLbl(historySubFilter)} (${idx+1}/${catDetailSortedSubs.length})`;
     document.getElementById('sub-nav-prev').disabled = idx <= 0;
     document.getElementById('sub-nav-next').disabled = idx >= catDetailSortedSubs.length-1;
   } else {
@@ -2812,7 +3063,7 @@ function buildIncomeEntry(){
   incomeCats.forEach(c => {
     const b = document.createElement('button');
     b.className = 'cat-chip'; b.dataset.id = c.id;
-    b.textContent = c.emoji + ' ' + c.label;
+    b.textContent = c.emoji + ' ' + catLbl(c);
     b.onclick = () => {
       selIncomeCat = c.id;
       grid.querySelectorAll('.cat-chip').forEach(x => {
@@ -2849,7 +3100,7 @@ window.addIncomeTxn = async function(){
   incomeTxns.unshift(txn);
   buildIncomeEntry();
   renderDash();
-  toast(`已记入收入 S$ ${amt.toFixed(2)}`);
+  toast(L('income_recorded')+amt.toFixed(2));
   // sync
   if(isOnline){
     try{ await setDoc(doc(db,'incomeTxns',txn.id), txn); return; } catch(e){}
@@ -2865,30 +3116,30 @@ function renderIncomePage(){
   const tot = mt.reduce((s,t) => s + t.amount, 0);
   const expTot = txns.filter(t=>t.month===smk()).reduce((s,t)=>s+t.amount,0);
   const net = tot - expTot;
-  const netStr = net >= 0 ? `结余 +S$ ${net.toFixed(2)}` : `结余 -S$ ${Math.abs(net).toFixed(2)}`;
+  const netStr = net >= 0 ? `${L('net_prefix')}+S$ ${net.toFixed(2)}` : `${L('net_prefix')}-S$ ${Math.abs(net).toFixed(2)}`;
   const netColor = net >= 0 ? '#6BA89A' : '#c97a7a';
 
   document.getElementById('income-total').textContent = `S$ ${tot.toFixed(2)}`;
-  document.getElementById('income-net').innerHTML = `本月支出 S$ ${expTot.toFixed(2)} &nbsp;·&nbsp; <span style="color:${netColor}">${netStr}</span>`;
+  document.getElementById('income-net').innerHTML = `${L('expense_month')} S$ ${expTot.toFixed(2)} &nbsp;·&nbsp; <span style="color:${netColor}">${netStr}</span>`;
 
-  if(!mt.length){ list.innerHTML = '<div class="empty-state">本月暂无收入记录</div>'; return; }
+  if(!mt.length){ list.innerHTML = '<div class="empty-state">'+L('no_income_month')+'</div>'; return; }
   list.innerHTML = '';
   mt.forEach((t,i) => {
     const cat = incomeCats.find(c => c.id === t.catId);
     const d = new Date(t.date);
-    const ds = `${d.getDate()} ${MONTHS[d.getMonth()]}  ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const ds = `${d.getDate()} ${MONS()[d.getMonth()]}  ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     const row = document.createElement('div');
     row.className = 'txn-row'; row.style.animationDelay = (i*.03)+'s';
     row.innerHTML = `
       <div class="txn-dot" style="background:${cat?.color||'#6BA89A'}"></div>
       <div class="txn-info">
-        <div class="txn-cat">${cat?.emoji||''} ${cat?.label||t.catId}</div>
-        ${t.note?`<div class="txn-note">${t.note}</div>`:''}
-        <div class="txn-date">${ds}${t.owner && owners.length>1 ? " · "+t.owner : ""}</div>
+        <div class="txn-cat">${cat?.emoji||''} ${cat?catLbl(cat):t.catId}</div>
+        ${t.note?`<div class="txn-note">${dtxt(t.note)}</div>`:''}
+        <div class="txn-date">${ds}${t.owner && owners.length>1 ? " · "+dtxt(t.owner) : ""}</div>
       </div>
       <div class="txn-right">
         <div class="txn-amt" style="color:#6BA89A">+S$ ${t.amount.toFixed(2)}</div>
-        <button class="del-btn" onclick="delIncomeTxn('${t.id}')">✕ 删除</button>
+        <button class="del-btn" onclick="delIncomeTxn('${t.id}')">${L('del_x')}</button>
       </div>`;
     list.appendChild(row);
   });
@@ -2897,7 +3148,7 @@ function renderIncomePage(){
 window.delIncomeTxn = async function(id){
   incomeTxns = incomeTxns.filter(t => t.id !== id);
   renderIncomePage(); renderDash();
-  toast('已删除');
+  toast(L('deleted'));
   if(isOnline){
     try{ await deleteDoc(doc(db,'incomeTxns',id)); return; } catch(e){}
   }
@@ -2926,12 +3177,12 @@ window.openEditTxn = function(id, isIncome) {
   const thisYear = now.getFullYear();
   for (let y = thisYear - 2; y <= thisYear; y++) {
     const o = document.createElement('option');
-    o.value = y; o.textContent = y + ' 年';
+    o.value = y; o.textContent = (lang==='en' ? String(y) : y + ' 年');
     if (y === ty) o.selected = true;
     yearSel.appendChild(o);
   }
   monthSel.innerHTML = '';
-  MONTHS.forEach((m, i) => {
+  MONS().forEach((m, i) => {
     const o = document.createElement('option');
     o.value = i + 1; o.textContent = m;
     if (i + 1 === tm) o.selected = true;
@@ -2946,7 +3197,7 @@ window.openEditTxn = function(id, isIncome) {
     const b = document.createElement('button');
     b.className = 'edit-cat-chip' + (c.id === editSelCat ? ' selected' : '');
     b.dataset.id = c.id;
-    b.textContent = c.emoji + ' ' + c.label;
+    b.textContent = c.emoji + ' ' + catLbl(c);
     if (c.id === editSelCat) { b.style.background = c.color; b.style.borderColor = c.color; }
     b.onclick = () => {
       editSelCat = c.id; editSelSub = '';
@@ -2982,13 +3233,13 @@ function buildEditSubGrid(catId, currentSub) {
   grid.innerHTML = '';
   const none = document.createElement('button');
   none.className = 'edit-sub-chip' + (sub === '' ? ' selected' : '');
-  none.textContent = '不分'; none.dataset.sub = '';
+  none.textContent = L('no_split'); none.dataset.sub = '';
   none.onclick = () => { editSelSub = ''; grid.querySelectorAll('.edit-sub-chip').forEach(b => b.classList.toggle('selected', b.dataset.sub === '')); };
   grid.appendChild(none);
   cat.sub.forEach(s => {
     const b = document.createElement('button');
     b.className = 'edit-sub-chip' + (s === sub ? ' selected' : '');
-    b.textContent = s; b.dataset.sub = s;
+    b.textContent = subLbl(s); b.dataset.sub = s;
     b.onclick = () => { editSelSub = s; grid.querySelectorAll('.edit-sub-chip').forEach(x => x.classList.toggle('selected', x.dataset.sub === s)); };
     grid.appendChild(b);
   });
@@ -3003,15 +3254,15 @@ function buildEditPayGrid(t){
   editSelPay = t.pay || 'cash';
   editSelCard = t.card || '';
   grid.innerHTML='';
-  var opts = [{pay:'cash',card:'',label:'💵 现金/转账'}];
+  var opts = [{pay:'cash',card:'',label:L('pay_cash_transfer')}];
   if(cards.length){
-    cards.forEach(c=>opts.push({pay:'credit',card:c,label:'💳 '+c}));
+    cards.forEach(c=>opts.push({pay:'credit',card:c,label:'💳 '+dtxt(c)}));
     // If txn has a card not in list (deleted card), still show it
     if(editSelPay==='credit' && editSelCard && !cards.includes(editSelCard)){
-      opts.push({pay:'credit',card:editSelCard,label:'💳 '+editSelCard});
+      opts.push({pay:'credit',card:editSelCard,label:'💳 '+dtxt(editSelCard)});
     }
   } else {
-    opts.push({pay:'credit',card:'',label:'💳 信用卡'});
+    opts.push({pay:'credit',card:'',label:L('pay_credit_generic')});
   }
   opts.forEach(opt=>{
     const b=document.createElement('button');
@@ -3031,7 +3282,7 @@ window.closeEdit = function() { document.getElementById('edit-overlay').classLis
 
 window.saveEdit = async function() {
   const amt = parseFloat(document.getElementById('edit-amt').value);
-  if (!editSelCat || !amt || amt <= 0) { toast('请填写类别和金额'); return; }
+  if (!editSelCat || !amt || amt <= 0) { toast(L('fill_cat_amt')); return; }
   const y = parseInt(document.getElementById('edit-year').value);
   const m = parseInt(document.getElementById('edit-month-sel').value);
   const month = mk(y, m);
@@ -3043,7 +3294,7 @@ window.saveEdit = async function() {
     incomeTxns[idx] = { ...incomeTxns[idx], month, catId: editSelCat, amount: amt, note };
     closeEdit();
     renderDash(); renderHist();
-    toast('已更新');
+    toast(L('updated'));
     try{ await setDoc(doc(db,'incomeTxns',editTxnId), incomeTxns[idx]); }
     catch(e){ pendingQueue.push({type:'setIncomeTxn',data:incomeTxns[idx]}); savePending(); }
     return;
@@ -3054,7 +3305,7 @@ window.saveEdit = async function() {
   txns[idx] = { ...txns[idx], month, catId: editSelCat, sub: editSelSub || '', amount: amt, note, pay: editSelPay, card: editSelPay==='credit' ? editSelCard : '' };
   closeEdit();
   renderDash(); renderHist();
-  toast('已更新');
+  toast(L('updated'));
   await fsSetTxn(txns[idx]);
 };
 
@@ -3235,11 +3486,12 @@ document.addEventListener('wheel', function(e){
 
 })();// ── START ──
 // Surface all errors as toasts for debugging
-window.addEventListener('error', e => { try{ toast('错误: ' + e.message); }catch(_){} });
+window.addEventListener('error', e => { try{ toast(L('error_prefix') + e.message); }catch(_){} });
 window.addEventListener('unhandledrejection', e => {
-  try{ toast('同步错误: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)); }catch(_){}
+  try{ toast(L('sync_error') + (e.reason && e.reason.message ? e.reason.message : e.reason)); }catch(_){}
 });
 
+applyStaticI18n();
 updateMonthLabel();
 init();
 
